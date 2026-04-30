@@ -6,26 +6,19 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Screenshots / Visual Testing
 
-Never run `npx next start` directly — it blocks the shell and gets killed on timeout. Use this exact sequence:
+Use this 2-step procedure. The screenshot script has its own built-in health check and will wait up to 60s for the server to become ready.
 
-1. **Kill any existing server on port 3001:**
+1. **Kill any existing server on port 3001 and start a new one:**
    ```powershell
-   $p = Get-NetTCPConnection -LocalPort 3001 -ErrorAction SilentlyContinue; if ($p) { Stop-Process -Id $p.OwningProcess -Force }
+   $p = Get-NetTCPConnection -LocalPort 3001 -ErrorAction SilentlyContinue; if ($p) { Stop-Process -Id $p.OwningProcess -Force -ErrorAction SilentlyContinue }; Start-Process powershell -ArgumentList "-NoExit", "-Command", "npx next start -p 3001"; Start-Sleep -Seconds 12
    ```
-2. **Start server in background:**
-   ```powershell
-   cmd /c start /b npx next start -p 3001
-   ```
-3. **Wait and verify:**
-   ```powershell
-   Start-Sleep -Seconds 5; (Invoke-WebRequest -Uri http://localhost:3001 -TimeoutSec 5).StatusCode
-   ```
-4. **Run screenshot script:**
+
+2. **Run screenshot script (built-in health check, waits up to 60s for the server):**
    ```powershell
    npx tsx screenshots/screenshot.ts
    ```
 
-All 4 steps should be in **separate** tool calls (verify before running). Never combine start + screenshot in one call.
+If the script prints `"Dev server did not start in time"`, wait 10s then re-run step 2.
 
 ## Next.js 16 Local Image Optimization
 

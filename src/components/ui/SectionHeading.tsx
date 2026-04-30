@@ -30,15 +30,15 @@ export function SectionHeading({
     <Tag
       id={id}
       className={cn(
-        "font-display text-[var(--color-ink)] leading-none tracking-tight",
+        "font-display text-[var(--color-ink)] leading-tight tracking-tight",
         level === 1
-          ? "text-[clamp(3rem,14vw,5.25rem)] sm:text-[clamp(4.75rem,7.4vw,8.75rem)]"
-          : "text-[clamp(2.75rem,10vw,4.5rem)] sm:text-[clamp(4rem,6vw,7rem)]",
+          ? "text-[clamp(2.5rem,5vw,4.5rem)]"
+          : "text-[clamp(2rem,4vw,3.5rem)]",
         className
       )}
     >
       {eyebrow && <span className="gold-ornament block mb-2">{eyebrow}</span>}
-      {title}{" "}
+      {title}
       {emphasis && (
         <span className="italic text-[var(--color-gold)]">{emphasis}</span>
       )}

@@ -1,12 +1,35 @@
 import { chromium } from "playwright";
 
+async function waitForServer(url: string, maxRetries = 30): Promise<boolean> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const resp = await fetch(url);
+      if (resp.ok) return true;
+    } catch {
+      /* server not ready yet */
+    }
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  return false;
+}
+
 async function main() {
-  const browser = await chromium.launch();
   const baseURL = "http://localhost:3001";
   const outDir = "screenshots";
 
+  console.log("Waiting for dev server at", baseURL);
+  const ready = await waitForServer(baseURL);
+  if (!ready) {
+    console.error("Dev server did not start in time (60s timeout). Aborting.");
+    process.exit(1);
+  }
+  console.log("✓ Server is ready\n");
+
+  const browser = await chromium.launch();
+
   const viewports = [
     { name: "desktop", width: 1440, height: 900 },
+    { name: "desktop-1080p", width: 1920, height: 1080 },
     { name: "mobile", width: 390, height: 844 },
   ];
 
@@ -23,8 +46,8 @@ async function main() {
     const page = await browser.newPage();
     await page.setViewportSize({ width: vp.width, height: vp.height });
 
-    await page.goto(baseURL, { waitUntil: "networkidle" });
-    await page.waitForTimeout(1000);
+    await page.goto(baseURL, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.waitForTimeout(3000);
 
     const fullFilename = `${vp.name}-full-page.png`;
     await page.screenshot({
@@ -52,4 +75,7 @@ async function main() {
   console.log("\nDone – screenshots saved to screenshots/");
 }
 
-main().catch(console.error);
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
