@@ -1,0 +1,53 @@
+export const products = {
+  sectionTitle: "Trois mondes.",
+  sectionEmphasis: "Trois nectars.",
+  subtitleDesktop:
+    "Trois expériences. Une mission : réhydrater le corps, élever la performance. Choisissez votre monde.",
+  flavors: [
+    {
+      id: "passion-mangue",
+      number: "01",
+      name: "Passion Mangue",
+      asset: "/assets/source/flavor-passion-scene.png",
+      desktopTagline: "SOLEIL · TROPICAL · ÉNERGISANT",
+      mobileTaste: "Exotique · Juteuse · Ensoleillée",
+      notesTitle: "NOTES DE GOÛT",
+      notes: "Mangue juteuse, fruit de la passion, touche d'agrumes.",
+      moodTitle: "MOOD",
+      mood: "Solaire et vivifiant. Comme une vague d'énergie.",
+      poeticLine: "L'énergie solaire des tropiques.",
+      cta: "Découvrir",
+      darkOverlay: true,
+    },
+    {
+      id: "fruits-des-bois",
+      number: "02",
+      name: "Fruits des Bois",
+      asset: "/assets/source/flavor-berry-scene.png",
+      desktopTagline: "SAUVAGE · INTENSE · PROFOND",
+      mobileTaste: "Gourmand · Acidulé · Sauvage",
+      notesTitle: "NOTES DE GOÛT",
+      notes: "Myrtille, mûre, framboise, cassis.",
+      moodTitle: "MOOD",
+      mood: "Nocturne et intense. Ancré et concentré.",
+      poeticLine: "La fraîcheur mystérieuse des forêts nocturnes.",
+      cta: "Découvrir",
+      darkOverlay: true,
+    },
+    {
+      id: "prochain-nectar",
+      number: "03",
+      name: "Prochain Nectar",
+      asset: "/assets/source/flavor-next-scene.png",
+      desktopTagline: "VOTRE CHOIX · NOTRE PROCHAINE CRÉATION",
+      label: "CRÉÉ PAR VOUS",
+      body: "Les fondateurs décident du prochain nectar. Votez pour façonner la suite de l'histoire.",
+      mobileBody: "Votez pour le prochain nectar imaginé par la communauté.",
+      lockedText: "Dévoilé bientôt.",
+      cta: "Voter",
+      darkOverlay: false,
+    },
+  ],
+} as const;
+
+export type ProductsConfig = typeof products;

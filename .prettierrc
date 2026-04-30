@@ -1,0 +1,4 @@
+module.exports = {
+  plugins: ["tailwindcss"],
+  tailwindConfig: "./src/app/globals.css",
+};

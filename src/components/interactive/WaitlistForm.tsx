@@ -1,0 +1,148 @@
+"use client";
+
+import { useState, useCallback } from "react";
+import type { WaitlistResponse } from "@/lib/validation/waitlist";
+
+interface WaitlistFormProps {
+  source: "hero" | "waitlist" | "footer" | "agora" | "unknown";
+}
+
+type FormState = "idle" | "submitting" | "success" | "duplicate" | "error";
+
+export function WaitlistForm({ source }: WaitlistFormProps) {
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<FormState>("idle");
+  const [founderId, setFounderId] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+
+  const isValidEmail = (value: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  };
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      const trimmed = email.trim();
+      if (!isValidEmail(trimmed)) {
+        setState("error");
+        setErrorMessage("Adresse email invalide.");
+        return;
+      }
+
+      if (honeypot) {
+        setState("success");
+        return;
+      }
+
+      setState("submitting");
+      setErrorMessage("");
+
+      try {
+        const res = await fetch("/api/waitlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: trimmed,
+            source,
+            company: honeypot,
+          }),
+        });
+
+        const data: WaitlistResponse = await res.json();
+
+        if (data.ok) {
+          setState(data.status === "duplicate" ? "duplicate" : "success");
+          if (data.founderId) {
+            setFounderId(data.founderId);
+            try {
+              localStorage.setItem("hydre_founder_id", data.founderId);
+              localStorage.setItem("hydre_founder_points", String(data.points ?? 100));
+            } catch {
+              // localStorage not available
+            }
+          }
+        } else {
+          setState("error");
+          setErrorMessage(data.message ?? "Une erreur est survenue.");
+        }
+      } catch {
+        setState("error");
+        setErrorMessage("Une erreur de connexion est survenue.");
+      }
+    },
+    [email, honeypot, source]
+  );
+
+  if (state === "success" || state === "duplicate") {
+    return (
+      <div
+        className="rounded-[var(--radius-lg)] border border-[var(--color-gold)] bg-[var(--color-card-strong)] p-6 text-center"
+        role="alert"
+      >
+        <p className="font-display text-lg font-semibold text-[var(--color-gold)]">
+          {state === "duplicate"
+            ? "Vous êtes déjà inscrit à l'Agora."
+            : "Bienvenue dans l'Agora."}
+        </p>
+        {founderId && (
+          <p className="mt-2 font-mono text-sm text-[var(--color-muted)]">
+            ID Fondateur : {founderId}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-6" noValidate>
+      <div className="flex flex-col gap-3 sm:flex-row sm:rounded-[var(--radius-pill)] sm:border sm:border-[var(--color-border-gold)]">
+        <div className="relative flex-1">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (state === "error") setState("idle");
+            }}
+            placeholder="vous@email.com"
+            required
+            aria-label="Adresse email"
+            aria-invalid={state === "error"}
+            aria-describedby={state === "error" ? "waitlist-error" : undefined}
+            className="w-full rounded-[var(--radius-pill)] border border-[var(--color-border-soft)] bg-white px-6 py-3 text-sm text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-gold)] focus:outline-none sm:rounded-none sm:border-0 sm:bg-transparent"
+          />
+          <input
+            type="text"
+            name="company"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+            tabIndex={-1}
+            className="sr-only"
+            autoComplete="off"
+            aria-hidden="true"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={state === "submitting"}
+          className="shrink-0 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-8 py-3 text-xs font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-none sm:bg-[var(--color-ink)] sm:py-3"
+        >
+          {state === "submitting" ? "Inscription…" : "Rejoindre le mouvement"}
+        </button>
+      </div>
+
+      {state === "error" && (
+        <p
+          id="waitlist-error"
+          className="mt-2 text-sm text-red-600"
+          role="alert"
+          aria-live="polite"
+        >
+          {errorMessage}
+        </p>
+      )}
+    </form>
+  );
+}

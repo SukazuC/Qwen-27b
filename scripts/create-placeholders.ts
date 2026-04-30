@@ -1,0 +1,43 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
+
+const dir = path.join(process.cwd(), "public", "assets", "source");
+fs.mkdirSync(dir, { recursive: true });
+
+const placeholders = [
+  "hero-product-scene-background",
+  "flavor-passion-scene",
+  "flavor-berry-scene",
+  "flavor-next-scene",
+  "electrolyte-temple",
+  "electrolyte-temple-background",
+  "comparison-arena-scene",
+  "hydratis-packshot",
+  "decathlon-packshot",
+  "dragon-mark-gold",
+  "founder-passport",
+  "hydre-wordmark",
+];
+
+const transparentPng = Buffer.from(
+  [
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d,
+    0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+    0x08, 0x06, 0x00, 0x00, 0x00, 0x1f, 0x15, 0xc4, 0x89, 0x00, 0x00, 0x00,
+    0x0a, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9c, 0x63, 0x00, 0x01, 0x00, 0x00,
+    0x05, 0x00, 0x01, 0x0d, 0x0a, 0x2d, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x49,
+    0x45, 0x4e, 0x44, 0xae, 0x42, 0x60, 0x82,
+  ]
+);
+
+for (const name of placeholders) {
+  const filePath = path.join(dir, `${name}.png`);
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, transparentPng);
+    console.log(`Created placeholder: ${filePath}`);
+  } else {
+    console.log(`Already exists: ${filePath}`);
+  }
+}
+
+console.log("Placeholder assets ready.");
