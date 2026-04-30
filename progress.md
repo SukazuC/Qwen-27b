@@ -59,3 +59,43 @@
 - Mobile Formule detail card opens on hotspot tap only (matches reference)
 - `comparison-arena-scene.png` used as subtle background at 6% opacity
 - Color variables in `globals.css` unchanged (Phase 3 scope)
+
+---
+
+# Phase 3: Close — COMPLETE
+
+## Status: COMPLETE
+
+## Files Modified
+- `src/components/sections/WaitlistSection.tsx` — Complete rewrite: 2-column desktop (content left, large statue bust right with Greek key circular frame), centered mobile with vertical benefits list, faint statue watermark background on mobile, decorative ornaments
+- `src/components/interactive/WaitlistForm.tsx` — Rewrite: pill-shaped container desktop (input with envelope icon + button with arrow), full-width stacked mobile, proper responsive layout
+- `src/components/ui/IconPill.tsx` — Update: large variant for mobile benefits (bigger icon circle, bigger text), divider prop for decorative separators
+- `src/components/layout/SiteFooter.tsx` — Complete rewrite: desktop (brand with dragon mark left, 4 nav columns + social right, Greek key border, legal row), mobile (compact brand + nav links, social icons row, copyright/legal)
+- `src/components/ui/DecorativeDivider.tsx` — Rewrite: added `variant` prop ("diamond", "greek-key", "ornament"), Greek key pattern variant
+- `src/app/globals.css` — Update: added proper Greek key/meander border pattern using multi-layer CSS gradients, overflow-x hidden on html/body
+
+## Screenshot Comparison
+- **Desktop Agora**: `desktop-agora.png` vs `PC section 6.png` ✅ Match — 2-column layout, large statue with frame, inline benefits, pill form, footer with nav columns
+- **Desktop 1080p Agora**: `desktop-1080p-agora.png` ✅ Scales well at higher resolution
+- **Mobile Agora**: `mobile-agora.png` vs `Mobile section 6.png` ✅ Match — Centered layout, stacked form, vertical benefits with dividers, compact footer
+
+## What Was Fixed
+1. **Desktop Waitlist 2-column layout** — Left: title, ornament, body, pill form, inline benefits row, privacy line. Right: large statue bust (~420px) with decorative Greek key circular frame
+2. **Desktop benefits inline row** — 4 icons (laurel, column, flask, gift) with text labels, separated by vertical dividers, NO circular backgrounds
+3. **Desktop pill-shaped form** — Bounded container with envelope icon in input, "REJOINDRE LE MOUVEMENT" button with arrow
+4. **Mobile centered layout** — Gold ornament, centered title, body text, full-width form stacked, vertical benefits list
+5. **Mobile benefits vertical list** — "VOS AVANTAGES" header with square ornaments, large icon + text per item, decorative gold dividers with diamond center
+6. **Mobile faint statue watermark** — Opacity 6% statue bust in background right side
+7. **Footer desktop** — Brand column with dragon mark, 4 nav columns (PRODUIT, ANALYSE, PARRAINAGE, FONDATEURS), social column (Instagram, X, LinkedIn with SVG icons), Greek key border, legal row
+8. **Footer mobile** — Compact brand + horizontal nav links, social icons row (Instagram, X, YouTube, Email), copyright + legal links
+9. **Greek key border** — CSS multi-layer gradient pattern simulating Greek meander
+10. **Mobile decorative bottom laurel** — Ornament at bottom of Waitlist section
+11. **Privacy line** — Lock icon (gold) + text
+
+## Known Remaining Issues
+- PillarIcon is a custom SVG approximation of a Greek column
+- Dragon mark SVG is simplified
+- Greek key border is a CSS gradient approximation (not a true SVG meander)
+- Ornament SVGs are simplified approximations of the reference designs
+- Gold ornament above "Rejoignez l'Agora" is a simplified decorative icon
+- `PillarIcon` requires `as unknown as LucideIcon` type cast due to forwardRef signature mismatch

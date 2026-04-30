@@ -6,18 +6,20 @@ interface IconPillProps {
   label: string;
   value?: string;
   large?: boolean;
+  divider?: boolean;
 }
 
-export function IconPill({ icon: Icon, label, value, large }: IconPillProps) {
+export function IconPill({ icon: Icon, label, value, large, divider }: IconPillProps) {
   return (
-    <div className="flex items-center gap-3">
+    <div className={cn("flex items-center gap-3", divider && "border-b border-[var(--color-border-gold)] pb-4")}>
       <div
         className={cn(
-          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-gold)] text-[var(--color-gold)]",
-          large && "h-10 w-10"
+          "flex shrink-0 items-center justify-center rounded-full border border-[var(--color-gold)] text-[var(--color-gold)]",
+          "h-8 w-8",
+          large && "h-12 w-12"
         )}
       >
-        <Icon className={cn("h-4 w-4", large && "h-5 w-5")} />
+        <Icon className={cn("h-4 w-4", large && "h-7 w-7")} strokeWidth={1.5} />
       </div>
       <div>
         {value && (
@@ -25,7 +27,9 @@ export function IconPill({ icon: Icon, label, value, large }: IconPillProps) {
             {value}
           </div>
         )}
-        <div className="text-xs text-[var(--color-muted)]">{label}</div>
+        <div className={cn("whitespace-nowrap text-[var(--color-muted)]", large ? "font-display text-xl" : "text-xs")}>
+          {label}
+        </div>
       </div>
     </div>
   );

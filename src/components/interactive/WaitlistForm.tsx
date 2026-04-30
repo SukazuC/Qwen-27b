@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import type { WaitlistResponse } from "@/lib/validation/waitlist";
+import { Mail, ArrowRight } from "lucide-react";
 
 interface WaitlistFormProps {
   source: "hero" | "waitlist" | "footer" | "agora" | "unknown";
@@ -97,8 +98,10 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="mt-6" noValidate>
-      <div className="flex flex-col gap-3 sm:flex-row sm:rounded-[var(--radius-pill)] sm:border sm:border-[var(--color-border-gold)]">
-        <div className="relative flex-1">
+      {/* Desktop: pill-shaped inline container */}
+      <div className="hidden sm:flex sm:items-center sm:rounded-full sm:border sm:border-[var(--color-border-gold)] sm:bg-white/60">
+        <div className="relative flex flex-1 items-center pl-5">
+          <Mail className="mr-3 h-4 w-4 shrink-0 text-[var(--color-muted)]" strokeWidth={1.5} />
           <input
             type="email"
             value={email}
@@ -111,26 +114,66 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
             aria-label="Adresse email"
             aria-invalid={state === "error"}
             aria-describedby={state === "error" ? "waitlist-error" : undefined}
-            className="w-full rounded-[var(--radius-pill)] border border-[var(--color-border-soft)] bg-white px-6 py-3 text-sm text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:border-[var(--color-gold)] focus:outline-none sm:rounded-none sm:border-0 sm:bg-transparent"
-          />
-          <input
-            type="text"
-            name="company"
-            value={honeypot}
-            onChange={(e) => setHoneypot(e.target.value)}
-            tabIndex={-1}
-            className="sr-only"
-            autoComplete="off"
-            aria-hidden="true"
+            className="w-full bg-transparent py-3 text-sm text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:outline-none"
           />
         </div>
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="shrink-0 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-8 py-3 text-xs font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)] disabled:cursor-not-allowed disabled:opacity-60 sm:rounded-none sm:bg-[var(--color-ink)] sm:py-3"
+          className="flex shrink-0 items-center gap-2 rounded-full bg-[var(--color-ink)] px-6 py-3 text-xs font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {state === "submitting" ? "Inscription…" : "Rejoindre le mouvement"}
+          <ArrowRight className="h-4 w-4" strokeWidth={2} />
         </button>
+        <input
+          type="text"
+          name="company"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+          tabIndex={-1}
+          className="sr-only"
+          autoComplete="off"
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* Mobile: stacked full-width form */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        <div className="relative flex items-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-white/60 px-4">
+          <Mail className="mr-3 h-5 w-5 shrink-0 text-[var(--color-muted)]" strokeWidth={1.5} />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (state === "error") setState("idle");
+            }}
+            placeholder="vous@email.com"
+            required
+            aria-label="Adresse email"
+            aria-invalid={state === "error"}
+            aria-describedby={state === "error" ? "waitlist-error" : undefined}
+            className="w-full bg-transparent py-4 text-base text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:outline-none"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={state === "submitting"}
+          className="flex w-full items-center justify-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-ink)] py-4 text-sm font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)] disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {state === "submitting" ? "Inscription…" : "Rejoindre le mouvement"}
+          <ArrowRight className="h-5 w-5" strokeWidth={2} />
+        </button>
+        <input
+          type="text"
+          name="company"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+          tabIndex={-1}
+          className="sr-only"
+          autoComplete="off"
+          aria-hidden="true"
+        />
       </div>
 
       {state === "error" && (

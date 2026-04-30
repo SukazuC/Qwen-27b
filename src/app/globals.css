@@ -99,3 +99,55 @@ body {
   padding-top: var(--section-y);
   padding-bottom: var(--section-y);
 }
+
+/* Greek key / meander border pattern */
+.greek-key-border {
+  height: 20px;
+  opacity: 0.25;
+  position: relative;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 3px,
+      var(--color-gold) 3px,
+      var(--color-gold) 4px,
+      transparent 4px,
+      transparent 7px,
+      var(--color-gold) 7px,
+      var(--color-gold) 8px,
+      transparent 8px,
+      transparent 11px,
+      var(--color-gold) 11px,
+      var(--color-gold) 12px,
+      transparent 12px,
+      transparent 15px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      var(--color-gold) 0px,
+      var(--color-gold) 1px,
+      transparent 1px,
+      transparent 4px,
+      var(--color-gold) 4px,
+      var(--color-gold) 5px,
+      transparent 5px,
+      transparent 8px,
+      var(--color-gold) 8px,
+      var(--color-gold) 9px,
+      transparent 9px,
+      transparent 12px
+    );
+  background-size: 15px 12px, 15px 12px;
+  background-position: 0 4px, 0 0px;
+  background-repeat: repeat-x;
+}
+
+/* Mobile overflow prevention */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
