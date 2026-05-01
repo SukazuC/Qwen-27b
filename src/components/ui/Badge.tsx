@@ -16,7 +16,7 @@ export function Badge({ icon: Icon, iconType, value, label, className }: StatBad
     return (
       <div
         className={cn(
-          "flex flex-col items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-[var(--color-card)] px-2 py-2 min-w-[80px]",
+          "flex flex-col items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-[var(--color-card)] px-2 py-2 h-[80px] min-w-[80px]",
           className
         )}
       >
@@ -39,7 +39,7 @@ export function Badge({ icon: Icon, iconType, value, label, className }: StatBad
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-[var(--color-card)] px-2 py-2 min-w-[72px] md:min-w-[80px]",
+        "flex flex-col items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-[var(--color-card)] px-2 py-2 h-[80px] min-w-[72px] md:min-w-[80px]",
         className
       )}
     >

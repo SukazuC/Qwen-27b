@@ -111,7 +111,10 @@ export default function ElectrolyteTempleSection() {
         </div>
 
         {/* Desktop: 3-column layout — title+stats left, temple center, detail right */}
-        <div className="hidden min-[1080px]:grid min-[1080px]:gap-6 min-[1080px]:items-center" style={{ gridTemplateColumns: 'minmax(240px, auto) minmax(400px, 1fr) 340px' }}>
+        <div
+          className="hidden min-[1080px]:grid min-[1080px]:gap-6 min-[1080px]:items-center"
+          style={{ gridTemplateColumns: 'minmax(240px, auto) minmax(400px, 1fr) 340px' }}
+        >
           {/* LEFT: Title + body + instruction + stat badges */}
           <div className="flex min-w-[240px] max-w-[300px] flex-col justify-center">
             <SectionHeading id="formule-heading" title={sectionTitle} />

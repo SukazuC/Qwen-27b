@@ -81,23 +81,21 @@ function HeroCtas() {
 
 function HeroBadges() {
   return (
-    <div className="mx-auto mt-3 grid w-full max-w-md grid-cols-3 gap-1.5 md:mt-8 md:mx-0 md:max-w-none md:grid-cols-5 md:gap-2.5">
+    <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 md:mt-8 md:mx-0 md:flex-nowrap md:justify-start md:gap-2.5">
       <Badge icon={Droplet} value="0g" label="sucre" />
       <Badge icon={Zap} value="6" label="électrolytes" />
       <Badge icon={Sparkles} value="3" label="vitamines" />
-      <Badge iconType="flag" value="" label="Fabriqué en France" className="col-start-2 hidden md:flex" />
-      <Badge icon={Leaf} value="" label="Vegan" className="col-start-3 hidden md:flex" />
-      <Badge iconType="flag" value="" label="Fabriqué en France" className="col-span-1 col-start-1 md:hidden" />
-      <Badge icon={Leaf} value="" label="Vegan" className="col-span-1 col-start-2 md:hidden" />
+      <Badge iconType="flag" value="" label="Français" />
+      <Badge icon={Leaf} value="" label="Vegan" />
     </div>
   );
 }
 
 export default function HeroSection() {
   return (
-  <section
+<section
       id="hero"
-      className="relative flex items-center overflow-hidden bg-[var(--color-bg)] pt-16 md:min-h-screen md:pt-0"
+      className="relative flex flex-col items-center overflow-hidden bg-[var(--color-bg)] pt-16 md:h-[100vh]"
       aria-labelledby="hero-heading"
     >
       {/* Full-width background image — desktop */}
@@ -107,9 +105,9 @@ export default function HeroSection() {
           alt=""
           aria-hidden="true"
           fill
-          className="object-cover object-[50%_40%]"
+          className="object-cover object-[60%_45%]"
           priority
-          sizes="100vw"
+          sizes="(max-width: 767px) 100vw, 90vw"
         />
       </div>
 
@@ -126,9 +124,12 @@ export default function HeroSection() {
         />
       </div>
 
-      <div className="container-max relative z-10 flex w-full flex-col md:flex-row md:items-center">
+      {/* Spacer for fixed headers on desktop */}
+      <div className="hidden h-[92px] md:block" />
+
+      <div className="container-max relative z-10 flex w-full flex-col md:flex-row">
         {/* Mobile layout — compact, single viewport */}
-        <div className="flex flex-1 flex-col items-center px-4 pt-8 pb-8 md:hidden">
+        <div className="flex flex-1 flex-col items-center px-4 pt-16 pb-8 md:hidden">
           <GreekColumnOrnament />
           <HeroTitle />
 
