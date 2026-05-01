@@ -72,6 +72,7 @@ export default function RootLayout({
     <html
       lang="fr-FR"
       className={`${bodoniModa.variable} ${inter.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <script
