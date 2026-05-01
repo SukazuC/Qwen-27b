@@ -45,14 +45,16 @@ function TempleImage({
               aria-pressed={activeKey === item.key}
               className={cn(
                 "absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all duration-300",
-                size === "lg"
-                  ? "w-14 h-14"
-                  : "w-10 h-10",
                 activeKey === item.key
                   ? "bg-white/20 ring-2 ring-[var(--color-gold)] shadow-[0_0_20px_rgba(178,138,76,0.4)]"
                   : "opacity-0 hover:opacity-30 hover:bg-white/30"
               )}
-              style={{ left: `${item.position.x}%`, top: `${item.position.y}%` }}
+              style={{
+                left: `${item.position.x}%`,
+                top: `${item.position.y}%`,
+                width: `${item.buttonWidth}%`,
+                aspectRatio: item.key === 'vitaminsB' ? '1 / 1.15' : '1 / 1',
+              }}
             />
           ))}
         </div>
