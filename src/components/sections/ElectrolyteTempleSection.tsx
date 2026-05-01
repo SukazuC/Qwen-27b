@@ -38,25 +38,27 @@ function TempleImage({
           sizes={size === "lg" ? "(max-width: 1024px) 80vw, 35vw" : "80vw"}
         />
         <div className="absolute inset-0">
-          {items.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => onSelect(item.key)}
-              aria-pressed={activeKey === item.key}
-              className={cn(
-                "absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all duration-300",
-                activeKey === item.key
-                  ? "bg-white/20 ring-2 ring-[var(--color-gold)] shadow-[0_0_20px_rgba(178,138,76,0.4)]"
-                  : "opacity-0 hover:opacity-30 hover:bg-white/30"
-              )}
-              style={{
-                left: `${item.position.x}%`,
-                top: `${item.position.y}%`,
-                width: `${item.buttonWidth}%`,
-                aspectRatio: item.key === 'vitaminsB' ? '1 / 1.15' : '1 / 1',
-              }}
-            />
-          ))}
+          {items.map((item) => {
+            const isActive = activeKey === item.key;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => onSelect(item.key)}
+                aria-pressed={isActive}
+                className={cn(
+                  "nutrient-hotspot absolute -translate-x-1/2 -translate-y-1/2 rounded-full",
+                  isActive && "is-active"
+                )}
+                style={{
+                  left: `${item.position.x}%`,
+                  top: `${item.position.y}%`,
+                  width: `${item.buttonWidth}%`,
+                  aspectRatio: item.key === 'vitaminsB' ? '1 / 1.15' : '1 / 1',
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
