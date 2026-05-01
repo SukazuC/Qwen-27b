@@ -29,7 +29,7 @@ const dataRows: Array<{
 ];
 
 export default function ComparisonArenaSection() {
-  const { sectionTitle, sectionEmphasis, subtitle, tabs, products, footnote, asset } = comparison;
+  const { sectionTitle, sectionEmphasis, subtitle, tabs, products, footnote } = comparison;
 
   const [activeTab, setActiveTab] = useState<TabId>("composition");
 
@@ -86,91 +86,74 @@ export default function ComparisonArenaSection() {
           ))}
         </div>
 
-        {/* COMPOSITION TAB */}
-        {activeTab === "composition" && (
-          <div role="tabpanel" id="tabpanel-composition">
-            {/* Podium background image */}
-            <div className="relative mx-auto max-w-4xl">
-              <ResponsiveImage
-                src={asset}
-                alt=""
-                width={1920}
-                height={1000}
-                className="w-full opacity-[0.25]"
-                sizes="(max-width: 768px) 90vw, 70vw"
-                aria-hidden="true"
-              />
-
-              {/* Data overlay */}
-              <div className="absolute inset-0 flex items-end justify-center pb-[10%]">
-                <div className="grid w-[85%] grid-cols-3 gap-2">
-                  {ordered.map((product) => (
-                    <PodiumDataColumn
-                      key={product.id}
-                      product={product}
-                      tab="composition"
-                    />
-                  ))}
+        {/* Desktop: floating overlay cards positioned over background podium */}
+        <div className="hidden lg:block">
+          {activeTab === "composition" && (
+            <div role="tabpanel" id="tabpanel-composition">
+              <div className="relative mx-auto max-w-4xl">
+                <div className="absolute inset-0 flex items-end justify-center pb-[10%]">
+                  <div className="grid w-[85%] grid-cols-3 gap-4">
+                    {ordered.map((product) => (
+                      <CompositionCard
+                        key={product.id}
+                        product={product}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* PRIX TAB */}
-        {activeTab === "prix" && (
-          <div role="tabpanel" id="tabpanel-prix">
-            {/* Podium background image */}
-            <div className="relative mx-auto max-w-4xl">
-              <ResponsiveImage
-                src={asset}
-                alt=""
-                width={1920}
-                height={1000}
-                className="w-full opacity-[0.25]"
-                sizes="(max-width: 768px) 90vw, 70vw"
-                aria-hidden="true"
-              />
-
-              {/* Price overlay */}
-              <div className="absolute inset-0 flex items-end justify-center pb-[10%]">
-                <div className="grid w-[85%] grid-cols-3 gap-2">
-                  {ordered.map((product) => (
-                    <PriceColumn key={product.id} product={product} />
-                  ))}
+          {activeTab === "prix" && (
+            <div role="tabpanel" id="tabpanel-prix">
+              <div className="relative mx-auto max-w-4xl">
+                <div className="absolute inset-0 flex items-end justify-center pb-[10%]">
+                  <div className="grid w-[85%] grid-cols-3 gap-4">
+                    {ordered.map((product) => (
+                      <PriceCard key={product.id} product={product} />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* Mobile: compact table layout */}
+        {/* Mobile: product cards + comparison table */}
         <div className="mt-8 lg:hidden">
           <div className="mb-4 flex justify-center gap-3">
             {mobileOrdered.map((p) => (
               <div
                 key={p.id}
                 className={cn(
-                  "flex flex-col items-center rounded-xl border px-3 py-3 text-center",
+                  "flex flex-col items-center rounded-[20px] border px-4 py-4 text-center",
                   p.highlighted
-                    ? "w-28 border-[var(--color-gold)] bg-[var(--color-card-strong)]"
-                    : "w-24 border-[var(--color-border-soft)] bg-[var(--color-card)]"
+                    ? "w-32 border-[var(--color-gold)] bg-gradient-to-b from-[var(--color-gold)]/10 to-white/70 backdrop-blur-sm"
+                    : "w-24 border-[var(--color-border-soft)] bg-white/70 backdrop-blur-sm"
                 )}
               >
-                <span
-                  className={cn(
-                    "mb-1 text-[9px] font-semibold uppercase tracking-wider",
-                    p.highlighted ? "text-[var(--color-gold)]" : "text-[var(--color-muted)]"
-                  )}
-                >
-                  {p.role}
-                </span>
-                <div className="h-16 w-8">
+                {p.highlighted && (
+                  <span className="mb-1 text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--color-gold)]">
+                    Champion
+                  </span>
+                )}
+                {!p.highlighted && (
+                  <span
+                    className={cn(
+                      "mb-1 text-[9px] font-semibold uppercase tracking-wider",
+                      "text-[var(--color-muted)]"
+                    )}
+                  >
+                    {p.role}
+                  </span>
+                )}
+                <div className="h-28 w-14">
                   <ResponsiveImage
                     src={p.image}
                     alt={p.alt}
-                    width={60}
-                    height={120}
+                    width={70}
+                    height={140}
                     className="h-full w-full object-contain"
                   />
                 </div>
@@ -182,19 +165,19 @@ export default function ComparisonArenaSection() {
           </div>
 
           {activeTab === "composition" && (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl border border-[var(--color-border-soft)]">
               <table className="w-full min-w-[480px] border-collapse text-sm">
-               <thead>
-                   <tr>
-                     <th className="p-2 text-left font-medium text-[var(--color-muted)]" />
-                     {mobileOrdered.map((p) => (
+                <thead>
+                  <tr className="border-b border-[var(--color-border-soft)]">
+                    <th className="p-3 text-left font-medium text-[var(--color-muted)]" />
+                    {mobileOrdered.map((p) => (
                       <th
                         key={p.id}
                         className={cn(
-                          "p-2 text-center",
+                          "p-3 text-center",
                           p.highlighted
-                            ? "font-semibold text-[var(--color-gold)]"
-                            : "text-[var(--color-muted)]"
+                            ? "font-bold text-[var(--color-gold)]"
+                            : "font-medium text-[var(--color-muted)]"
                         )}
                       >
                         {p.name}
@@ -207,19 +190,19 @@ export default function ComparisonArenaSection() {
                     const Icon = row.icon;
                     return (
                       <tr key={row.label} className="border-t border-[var(--color-border-soft)]">
-                        <td className="p-2 font-medium text-[var(--color-ink-soft)]">
+                        <td className="p-3 font-medium text-[var(--color-ink-soft)]">
                           <div className="flex items-center gap-2">
                             <Icon className="h-3.5 w-3.5 text-[var(--color-gold)]" />
                             {row.label}
                           </div>
-                       </td>
-                          {mobileOrdered.map((p) => (
+                        </td>
+                        {mobileOrdered.map((p) => (
                           <td
                             key={p.id}
                             className={cn(
-                              "p-2 text-center",
+                              "p-3 text-center",
                               p.highlighted
-                                ? "font-semibold text-[var(--color-gold)]"
+                                ? "font-bold text-[var(--color-gold)]"
                                 : "text-[var(--color-muted)]"
                             )}
                           >
@@ -240,10 +223,10 @@ export default function ComparisonArenaSection() {
                 <div
                   key={p.id}
                   className={cn(
-                    "rounded-xl border p-4 text-center",
+                    "rounded-[20px] border p-4 text-center",
                     p.highlighted
-                      ? "border-[var(--color-gold)] bg-[var(--color-card-strong)]"
-                      : "border-[var(--color-border-soft)] bg-[var(--color-card)]"
+                      ? "border-[var(--color-gold)] bg-white/80 backdrop-blur-sm"
+                      : "border-[var(--color-border-soft)] bg-white/60 backdrop-blur-sm"
                   )}
                 >
                   <span
@@ -279,28 +262,22 @@ export default function ComparisonArenaSection() {
   );
 }
 
-function PodiumDataColumn({
-  product,
-  tab,
-}: {
-  product: ComparisonProduct;
-  tab: "composition" | "prix";
-}) {
+function CompositionCard({ product }: { product: ComparisonProduct }) {
   const isChampion = product.highlighted;
 
   return (
     <div
       className={cn(
-        "flex flex-col rounded-t-[20px] border-t border-x",
+        "flex flex-col rounded-[20px] border backdrop-blur-sm",
         isChampion
-          ? "border-[var(--color-gold)] bg-gradient-to-b from-[var(--color-gold)]/15 via-[var(--color-ink)]/70 to-[var(--color-ink)]/90"
-          : "border-[var(--color-border-soft)] bg-[var(--color-card)]"
+          ? "border-[var(--color-gold)] bg-gradient-to-b from-[var(--color-gold)]/10 via-white/80 to-white/60 -mt-8 shadow-lg shadow-[var(--color-gold)]/10"
+          : "border-[var(--color-border-soft)] bg-white/70 backdrop-blur-sm"
       )}
     >
       {/* Name header */}
       <div
         className={cn(
-          "w-full border-b py-2 text-center",
+          "w-full border-b py-3 text-center",
           isChampion
             ? "border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10"
             : "border-[var(--color-border-soft)]"
@@ -353,16 +330,16 @@ function PodiumDataColumn({
   );
 }
 
-function PriceColumn({ product }: { product: ComparisonProduct }) {
+function PriceCard({ product }: { product: ComparisonProduct }) {
   const isChampion = product.highlighted;
 
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-end rounded-t-[20px] border-t border-x py-8 text-center",
+        "flex flex-col items-center justify-center rounded-[20px] border backdrop-blur-sm py-8 text-center",
         isChampion
-          ? "border-[var(--color-gold)] bg-gradient-to-b from-[var(--color-gold)]/15 via-[var(--color-ink)]/70 to-[var(--color-ink)]/90"
-          : "border-[var(--color-border-soft)] bg-[var(--color-card)]"
+          ? "border-[var(--color-gold)] bg-gradient-to-b from-[var(--color-gold)]/10 via-white/80 to-white/60 -mt-8 shadow-lg shadow-[var(--color-gold)]/10"
+          : "border-[var(--color-border-soft)] bg-white/70 backdrop-blur-sm"
       )}
     >
       <span

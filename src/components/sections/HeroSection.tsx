@@ -47,7 +47,7 @@ function HeroTitle() {
 function HeroBody() {
   const { hero } = site;
   return (
-    <p className="mt-4 max-w-sm text-sm leading-[1.6] text-center text-[var(--color-muted)] md:mt-5 md:max-w-md md:text-left md:text-base">
+    <p className="mt-3 max-w-sm text-sm leading-[1.6] text-center text-[var(--color-muted)] md:mt-5 md:max-w-md md:text-left md:text-base">
       {hero.body}
     </p>
   );
@@ -56,7 +56,7 @@ function HeroBody() {
 function HeroCtas() {
   const { hero } = site;
   return (
-    <div className="mx-auto mt-6 flex w-full flex-col items-center gap-3 sm:items-start md:mt-8 md:mx-0 md:w-auto md:flex-row">
+    <div className="mx-auto mt-4 flex w-full flex-col items-center gap-3 sm:items-start md:mt-8 md:mx-0 md:w-auto md:flex-row">
       <Button
         href={hero.primaryCta.href}
         variant="primary"
@@ -81,7 +81,7 @@ function HeroCtas() {
 
 function HeroBadges() {
   return (
-    <div className="mx-auto mt-6 grid w-full max-w-md grid-cols-3 gap-2 md:mt-8 md:mx-0 md:max-w-none md:grid-cols-5 md:gap-2.5">
+    <div className="mx-auto mt-3 grid w-full max-w-md grid-cols-3 gap-1.5 md:mt-8 md:mx-0 md:max-w-none md:grid-cols-5 md:gap-2.5">
       <Badge icon={Droplet} value="0g" label="sucre" />
       <Badge icon={Zap} value="6" label="électrolytes" />
       <Badge icon={Sparkles} value="3" label="vitamines" />
@@ -97,11 +97,24 @@ export default function HeroSection() {
   return (
   <section
       id="hero"
-      className="relative flex items-center overflow-hidden bg-[var(--color-bg)] py-8 md:min-h-screen md:py-0"
+      className="relative flex items-center overflow-hidden bg-[var(--color-bg)] pt-16 md:min-h-screen md:pt-0"
       aria-labelledby="hero-heading"
     >
-      {/* Full-width background image (desktop only) */}
+      {/* Full-width background image — desktop */}
       <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
+        <Image
+          src="/assets/source/hero-product-scene-background.png"
+          alt=""
+          aria-hidden="true"
+          fill
+          className="object-cover object-[50%_40%]"
+          priority
+          sizes="(max-width: 768px) 0px, 100vw"
+        />
+      </div>
+
+      {/* Mobile background image */}
+      <div className="pointer-events-none absolute inset-0 z-0 md:hidden">
         <Image
           src="/assets/source/hero-product-scene-background.png"
           alt=""
@@ -109,27 +122,15 @@ export default function HeroSection() {
           fill
           className="object-cover object-[50%_35%]"
           priority
-          sizes="(max-width: 768px) 0px, 100vw"
+          sizes="100vw"
         />
       </div>
 
       <div className="container-max relative z-10 flex w-full flex-col md:flex-row md:items-center">
         {/* Mobile layout — compact, single viewport */}
-        <div className="flex flex-1 flex-col items-center px-4 pt-8 pb-10 md:hidden">
+        <div className="flex flex-1 flex-col items-center px-4 pt-8 pb-8 md:hidden">
           <GreekColumnOrnament />
           <HeroTitle />
-
-          {/* Mobile product image — centered, prominent */}
-          <div className="relative mx-auto mt-4 h-[380px] w-full max-w-[280px]">
-            <Image
-              src="/assets/source/flavor-passion-scene.png"
-              alt="HYDRE Nutrition produit"
-              fill
-              className="object-contain object-center"
-              priority
-              sizes="280px"
-            />
-          </div>
 
           <HeroBody />
           <HeroCtas />

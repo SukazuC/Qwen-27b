@@ -14,7 +14,7 @@ async function waitForServer(url: string, maxRetries = 30): Promise<boolean> {
 }
 
 async function main() {
-  const baseURL = "http://localhost:3001";
+  const baseURL = "http://localhost:3000";
   const outDir = "screenshots";
 
   console.log("Waiting for dev server at", baseURL);

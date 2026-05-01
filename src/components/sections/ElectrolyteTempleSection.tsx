@@ -28,15 +28,7 @@ function TempleImage({
 }) {
   return (
     <div className="relative mx-auto w-full">
-      <ResponsiveImage
-        src={assets.background}
-        alt=""
-        width={2000}
-        height={2000}
-        className="w-full opacity-[0.08]"
-        sizes={size === "lg" ? "(max-width: 1024px) 80vw, 35vw" : "80vw"}
-      />
-      <div className="relative aspect-square max-w-md mx-auto">
+       <div className="relative aspect-square mx-auto max-w-md lg:max-w-xl">
         <ResponsiveImage
           src={assets.temple}
           alt="Visualisation du temple des électrolytes HYDRE Nutrition."
@@ -57,20 +49,11 @@ function TempleImage({
                   ? "w-14 h-14"
                   : "w-10 h-10",
                 activeKey === item.key
-                  ? "ring-2 ring-[var(--color-gold)] ring-offset-2 ring-offset-transparent shadow-[0_0_20px_rgba(178,138,76,0.4)]"
-                  : "opacity-0 hover:opacity-60"
+                  ? "bg-white/20 ring-2 ring-[var(--color-gold)] shadow-[0_0_20px_rgba(178,138,76,0.4)]"
+                  : "opacity-0 hover:opacity-30 hover:bg-white/30"
               )}
               style={{ left: `${item.position.x}%`, top: `${item.position.y}%` }}
-            >
-              <span
-                className={cn(
-                  "font-display font-bold text-[var(--color-gold)]",
-                  size === "lg" ? "text-xs" : "text-xs"
-                )}
-              >
-                {item.symbol}
-              </span>
-            </button>
+            />
           ))}
         </div>
       </div>
@@ -91,7 +74,7 @@ export default function ElectrolyteTempleSection() {
   } = ingredients;
 
   const [activeKey, setActiveKey] = useState<string>(defaultActive);
-  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(true);
   const activeIngredient = items.find((item) => item.key === activeKey) ?? items[0];
 
   const handleSelect = useCallback((key: string) => {
@@ -102,36 +85,52 @@ export default function ElectrolyteTempleSection() {
   return (
     <section
       id="formule"
-      className="section-y bg-[var(--color-bg-light)] section-bg-temple"
+      className="relative section-y bg-[var(--color-bg-light)] section-bg-temple"
       aria-labelledby="formule-heading"
     >
       <div className="container-max">
-        {/* Header - centered */}
-        <div className="mb-8 text-center md:mb-12">
+        {/* Header — mobile only */}
+        <div className="mb-6 text-center lg:hidden">
           <SectionHeading id="formule-heading" title={sectionTitle} />
-          <p className="mt-2 font-display italic text-[var(--color-gold)] sm:hidden">
+          <p className="mt-2 font-display italic text-[var(--color-gold)]">
             {sectionEmphasisMobile}
           </p>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-[var(--color-muted)] sm:text-lg">
+          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--color-muted)]">
             {sectionBodyDesktop}
           </p>
-          <p className="mt-4 flex items-center justify-center gap-2 text-sm text-[var(--color-muted)]">
-            <CursorIcon />
-            {instruction}
-          </p>
+          <p className="mt-3 flex items-center justify-center gap-2 text-xs text-[var(--color-muted)]">
+             <CursorIcon />
+             {instruction}
+           </p>
+           <div className="mt-5 flex justify-center gap-2">
+             <MiniBadge icon={Droplets} value="0g" label="Sucre" />
+             <MiniBadge icon={Zap} value="6" label="Électrolytes" />
+             <MiniBadge icon={Atom} value="3" label="Vitamines" />
+             <MiniBadge icon={Leaf} value="" label="Vegan" />
+           </div>
         </div>
 
-        {/* Desktop: 3-column layout - stat badges, temple, detail card */}
-        <div className="mt-4 hidden lg:grid lg:grid-cols-[minmax(320px,auto),1.2fr,1fr] lg:gap-8 lg:items-start">
-          {/* LEFT: stat badges row */}
-          <div className="flex gap-3">
-            <MiniBadge icon={Droplets} value="0g" label="Sucre" />
-            <MiniBadge icon={Zap} value="6" label="Électrolytes" />
-            <MiniBadge icon={Atom} value="3" label="Vitamines" />
-            <MiniBadge icon={Leaf} value="" label="Vegan" />
+        {/* Desktop: 3-column layout — title+stats left, temple center, detail right */}
+        <div className="hidden lg:grid lg:grid-cols-[auto,1fr,300px] lg:gap-8 lg:items-start">
+          {/* LEFT: Title + body + instruction + stat badges */}
+          <div className="flex max-w-xs flex-col justify-center pr-4">
+            <SectionHeading id="formule-heading" title={sectionTitle} />
+            <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
+              {sectionBodyDesktop}
+            </p>
+            <p className="mt-4 flex items-center gap-2 text-xs text-[var(--color-muted)]">
+              <CursorIcon />
+              {instruction}
+            </p>
+            <div className="mt-6 flex gap-2.5">
+              <MiniBadge icon={Droplets} value="0g" label="Sucre" />
+              <MiniBadge icon={Zap} value="6" label="Électrolytes" />
+              <MiniBadge icon={Atom} value="3" label="Vitamines" />
+              <MiniBadge icon={Leaf} value="" label="Vegan" />
+            </div>
           </div>
 
-          {/* CENTER: temple image */}
+          {/* CENTER: Temple image with medallions */}
           <TempleImage
             activeKey={activeKey}
             items={items}
@@ -140,7 +139,7 @@ export default function ElectrolyteTempleSection() {
             size="lg"
           />
 
-          {/* RIGHT: detail card */}
+          {/* RIGHT: Detail card — always visible, updates on selection */}
           <IngredientDetailCard ingredient={activeIngredient} />
         </div>
 
@@ -157,7 +156,7 @@ export default function ElectrolyteTempleSection() {
           {/* Mobile detail bottom sheet */}
           {mobileDetailOpen && (
             <div className="mt-6">
-              <div className="relative rounded-[20px] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-5 shadow-lg">
+              <div className="relative rounded-[20px] border border-[var(--color-border-gold)] backdrop-blur-md bg-white/90 p-5 shadow-lg">
                 <button
                   onClick={() => setMobileDetailOpen(false)}
                   className="absolute right-4 top-4 text-[var(--color-muted)] hover:text-[var(--color-ink)]"
@@ -244,12 +243,12 @@ function IngredientDetailCard({
   ingredient: (typeof ingredients.items)[number];
 }) {
   return (
-    <div className="rounded-[20px] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-6 shadow-lg">
+    <div className="rounded-[20px] bg-white/80 backdrop-blur-sm border border-[var(--color-border-soft)] p-6 shadow-lg">
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
         Actif sélectionné
       </p>
       <div className="flex items-baseline gap-1">
-        <span className="font-display text-5xl font-bold text-[var(--color-gold)]">
+        <span className="font-display text-4xl font-bold text-[var(--color-gold)]">
           {ingredient.symbol}
         </span>
       </div>
@@ -277,12 +276,6 @@ function IngredientDetailCard({
           Bénéfice
         </p>
         <p className="text-sm leading-relaxed text-[var(--color-ink-soft)]">
-          {ingredient.benefit}
-        </p>
-      </div>
-      <div className="mt-4 rounded-lg bg-[var(--color-gold)]/5 p-3">
-        <p className="flex items-start gap-2 text-xs text-[var(--color-muted)]">
-          <span className="shrink-0 text-[var(--color-gold)]">&#10022;</span>
           {ingredient.benefit}
         </p>
       </div>

@@ -174,13 +174,13 @@ export default function WaitlistSection() {
             </div>
 
             <SectionHeading
-              id="waitlist-heading"
-              title={sectionTitle}
-              level={2}
-              className="text-center text-4xl lg:text-left lg:text-5xl"
-            />
+               id="waitlist-heading"
+               title={sectionTitle}
+               level={2}
+               className="text-center lg:text-left"
+             />
 
-            <p className="mt-4 max-w-md text-center text-base leading-relaxed text-[var(--color-muted)] lg:text-left">
+            <p className="mt-4 max-w-md text-center text-[15px] leading-relaxed text-[var(--color-muted)] lg:text-left">
               <span className="block sm:hidden">{mobileBody}</span>
               <span className="hidden sm:block">
                 {desktopBody}{" "}
@@ -214,7 +214,7 @@ export default function WaitlistSection() {
                     <div key={benefit} className="py-5">
                       <div className="flex items-center gap-4">
                         <IconComp className="h-10 w-10 shrink-0 text-[var(--color-gold)]" strokeWidth={1.5} />
-                        <span className="font-display text-xl text-[var(--color-ink)]">
+                        <span className="font-display text-[clamp(1.125rem,3vw,1.5rem)] text-[var(--color-ink)]">
                           {benefit}
                         </span>
                       </div>
@@ -238,11 +238,11 @@ export default function WaitlistSection() {
                 return (
                   <div key={benefit} className="flex items-center">
                     {i > 0 && (
-                      <div className="mx-4 h-8 w-px bg-[var(--color-border-gold)]" />
+                      <div className="mx-4 h-6 w-px bg-[var(--color-border-gold)]" />
                     )}
                     <div className="flex items-center gap-2.5">
                       <IconComp
-                        className="h-6 w-6 shrink-0 text-[var(--color-gold)]"
+                        className="h-5 w-5 shrink-0 text-[var(--color-gold)]"
                         strokeWidth={1.5}
                       />
                       <span className="whitespace-nowrap text-sm text-[var(--color-muted)]">{benefit}</span>
@@ -253,7 +253,7 @@ export default function WaitlistSection() {
             </div>
 
             {/* Privacy line */}
-            <p className="mt-6 flex items-center gap-2 text-xs text-[var(--color-muted)] justify-center sm:justify-start">
+            <p className="mt-6 flex items-center gap-2 text-[11px] text-[var(--color-muted)] justify-center sm:justify-start">
               <Lock className="h-3.5 w-3.5 text-[var(--color-gold)]" strokeWidth={1.5} />
               {privacyLine}
             </p>

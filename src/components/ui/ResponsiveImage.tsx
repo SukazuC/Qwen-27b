@@ -13,6 +13,7 @@ interface ResponsiveImageProps
 }
 
 export function ResponsiveImage({
+  src,
   width,
   height,
   alt,
@@ -22,8 +23,11 @@ export function ResponsiveImage({
   className,
   ...props
 }: ResponsiveImageProps) {
+  const isWebp = typeof src === "string" && src.endsWith(".webp");
+
   return (
     <Image
+      src={src}
       width={width}
       height={height}
       sizes={sizes}
@@ -31,6 +35,7 @@ export function ResponsiveImage({
       loading={priority ? "eager" : "lazy"}
       priority={priority}
       decoding="async"
+      unoptimized={isWebp}
       className={cn(rounded && "rounded-[var(--radius-lg)]", className)}
       {...props}
     />

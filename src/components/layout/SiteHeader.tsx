@@ -19,7 +19,7 @@ export default function SiteHeader() {
   return (
     <>
       <header
-        className="sticky top-0 z-40 w-full bg-white/[0.15] backdrop-blur-lg border-b border-[var(--color-border-gold)]/30"
+        className="sticky top-0 z-40 w-full bg-white/[0.05] backdrop-blur-md border-b border-[var(--color-border-gold)]/15 transition-colors duration-300"
         role="banner"
       >
         <div className="container-max flex items-center justify-between py-4">

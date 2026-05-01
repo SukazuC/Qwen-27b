@@ -1,4 +1,94 @@
-# Phase 1 Rewrite: Critical Structural Fixes — COMPLETE
+# Phase 3: Final Pixel-Perfect Polish & Validation — COMPLETE
+
+## Status: COMPLETE
+
+## Files Modified
+- `src/styles/section-backgrounds.css` — Replaced gradient-only backgrounds with layered image + gradient approach using `::before` pseudo-elements for opacity control; added `position: relative; z-index: 1` to child elements; added `section-bg-agora` and `section-bg-waitlist` gradient backgrounds
+- `src/app/globals.css` — Removed duplicate `.section-bg-temple` / `.section-bg-arena` definitions (now handled in section-backgrounds.css)
+- `src/components/sections/HeroSection.tsx` — Added mobile background image rendering; removed separate mobile product image (background image now shows product on all viewports); compacted mobile layout margins
+- `src/components/sections/ElectrolyteTempleSection.tsx` — Fixed 3-column desktop grid (`lg:grid-cols-[auto,1fr,300px]`), temple image sizing (`max-w-md lg:max-w-xl`), left column constrained (`max-w-xs`), mobile detail sheet opens by default (`useState(true)`)
+
+## Pixel Audit Results
+| Section | Desktop (1440x900) | Desktop HD (1920x1080) | Mobile (390x844) |
+|---|---|---|---|
+| Hero | ✅ Transparent header, full pedestal bg, text positioned | ✅ Scales correctly, content centered | ✅ Background image visible, compact layout, fits viewport |
+| Produits | ✅ 3 unified cards, liquid glass overlays, aligned buttons | ✅ Cards scale well, images crisp | ✅ Horizontal cards, glass overlays, light enough |
+| Formule | ✅ 3-column layout, temple centered, detail card right | ✅ Layout holds at HD, temple properly sized | ✅ Temple image, stat badges, detail sheet open by default |
+| Analyse | ✅ Background podium image visible, floating data cards | ✅ Background covers section, champion elevated | ✅ No podium, clean cards + table, HYDRE champion |
+| Fondateurs | ✅ Passport, stats, vote card, timeline | ✅ Layout scales, all content visible | ✅ Compact passport, 2x2 stats, horizontal timeline |
+| Agora | ✅ 2-column layout, statue bust, form, footer | ✅ Statue large, text readable | ✅ Stacked form, vertical benefits, compact footer |
+
+## Build Verification
+- `npx tsc --noEmit`: ✅ Passes clean
+- `npx next build`: ✅ Compiles successfully, all pages generated
+- All 21 screenshots captured successfully
+
+## Known Remaining Issues (Acceptable Cosmetic Approximations)
+- Greek key circular frame = simplified SVG approximation
+- Ornament SVGs = simplified approximations of reference designs
+- Hero badges use lucide icons, not detailed custom icons
+- Comparison desktop background image opacity subtle (12% via ::before)
+- Medallion buttons invisible in static screenshots (hover/selected states require interaction)
+- Color variables in globals.css unchanged
+
+---
+
+# Phase 2: Visual Polish & Styling Refinements — COMPLETE
+
+## Status: COMPLETE
+
+## Files Modified
+- `src/components/sections/ProductWorldsSection.tsx` — Liquid glass effect on card overlays: gradient `from-black/70 via-black/20 to-transparent`, `backdrop-blur-sm` on text containers, `border border-white/10` card edges
+- `src/components/sections/ElectrolyteTempleSection.tsx` — Mobile temple `max-w-lg` (larger), stat badges above temple on mobile, detail sheet `backdrop-blur-md bg-white/90`, medallion hover `opacity-30`
+- `src/components/sections/ComparisonArenaSection.tsx` — Champion gradient `from-[var(--color-gold)]/10 via-white/80 to-white/60`, challenger `bg-white/70 backdrop-blur-sm`, mobile packshots `h-28 w-14`, "CHAMPION" label, table `rounded-xl border`
+- `src/components/sections/WaitlistSection.tsx` — Icons `h-5 w-5`, dividers `h-6`, body `text-[15px]`, privacy `text-[11px]`, mobile benefits `text-[clamp(1.125rem,3vw,1.5rem)]`, SectionHeading clamp sizing
+
+## Screenshot Comparison
+| Screenshot | vs Reference | Status |
+|---|---|---|
+| desktop-produits.png | PC-section-2-3.png (top) | ✅ Liquid glass effect, subtle borders, cleaner overlays |
+| desktop-formule.png | PC-section-2-3.png (bottom) | ✅ 3-column layout, temple image centered |
+| desktop-analyse.png | pc-section-4-5.png (top) | ✅ Champion card gradient, challenger glass cards |
+| desktop-agora.png | PC-section-6.png | ✅ 2-column layout, gold "d'HYDRE", benefits, form |
+| mobile-produits.png | Mobile-section-2-3.png (top) | ✅ Horizontal cards with glass overlay |
+| mobile-formule.png | Mobile-section-2-3.png (bottom) | ✅ Larger temple, stat badges visible, glass detail sheet |
+| mobile-analyse.png | Mobile-section-4-5.png (top) | ✅ Champion label, larger packshots, clean table |
+| mobile-agora.png | Mobile-section-6.png | ✅ Stacked form, vertical benefits, dividers |
+
+## What Was Fixed (18 items)
+1. Product card liquid glass overlays (gradient + backdrop-blur-sm)
+2. Card border edge definition (border-white/10)
+3. Mobile temple image larger (max-w-lg)
+4. Mobile stat badges positioned above temple
+5. Mobile detail bottom sheet liquid glass (backdrop-blur-md bg-white/90)
+6. Medallion hover opacity tuned to 30%
+7. Desktop champion card gradient (from-[var(--color-gold)]/10 via-white/80)
+8. Desktop challenger cards glass effect (bg-white/70)
+9. Mobile packshots larger (h-28 w-14)
+10. Mobile "CHAMPION" gold label on champion card
+11. Mobile comparison table clean grid (rounded-xl border)
+12. Desktop benefit icons h-5 w-5
+13. Desktop benefit dividers h-6
+14. Body text text-[15px] leading-relaxed
+15. Privacy line text-[11px]
+16. Mobile benefit text clamp sizing
+17. Heading sizes consistent (SectionHeading clamp)
+18. Footer desktop 5-col + mobile compact layout
+
+## Build Verification
+- `npx tsc --noEmit`: ✅ Passes clean
+- `npm run build`: ✅ Compiles successfully, all pages generated
+- All 21 screenshots captured successfully
+
+## Known Remaining Issues
+- Desktop Formule: heading/badges stack above temple image (grid column collapse at certain widths)
+- Medallion buttons invisible in static screenshots (hover/selected states require interaction)
+- Greek key circular frame = simplified SVG approximation
+- Ornament SVGs = simplified approximations of reference designs
+- Hero badges use lucide icons, not detailed custom icons
+- Color variables in globals.css unchanged (future scope)
+
+---
 
 ## Status: COMPLETE
 
@@ -196,3 +286,48 @@
 5. **Mobile fondateurs** — Passport no longer overflows (130px fixed), stats in 2×2 grid, compact vote card with image inline
 6. **Desktop fondateurs** — Stat cards with custom icons, timeline steps updated (IDÉATION/RECHERCHE/DÉGUSTATION/LANCEMENT), bottom engagement bar added
 7. **TypeScript** — `npx tsc --noEmit` passes clean, `npx next build` succeeds
+
+---
+
+# Phase 1 (Rewrite): Structural Foundation — COMPLETE
+
+## Status: COMPLETE
+
+## Files Modified
+- `src/components/layout/SiteHeader.tsx` — 2A: Liquid glass transparency: `bg-white/[0.05] backdrop-blur-md`, border `/15`, added `transition-colors duration-300`
+- `src/components/sections/HeroSection.tsx` — 2B+2C: Desktop background `object-[50%_40%]` for pedestal visibility, added `pt-16` for sticky header compensation; Mobile compaction: reduced product image `h-[280px]`, reduced all margins (`mt-2`, `mt-3`, `mt-4`, `mt-3`), reduced padding `pt-6 pb-6`, smaller badge gap `gap-1.5`
+- `src/components/sections/ProductWorldsSection.tsx` — 3A-3C: Complete rewrite with unified card design — ALL 3 cards use same full-height image + gradient overlay + text at bottom; grid gap `gap-5`, `rounded-[24px]`; Mobile overlay lighter: `from-black/60 via-black/30` (dark), `from-white/50 via-transparent` (light)
+- `src/components/sections/ElectrolyteTempleSection.tsx` — 4A-4E: 3-column desktop layout (`lg:grid-cols-[1fr,auto,300px]`): left (heading+body+instruction+badges), center (temple with invisible medallions), right (detail card); medallions invisible by default, only selected shows gold glow ring; detail card with `bg-white/80 backdrop-blur-sm`, large gold symbol (`text-4xl`), removed duplicate benefit box; Mobile-only header section
+- `src/components/sections/ComparisonArenaSection.tsx` — 5A-5D: Background image as section background (not inline element); removed inline `ResponsiveImage` for podium; desktop uses floating overlay cards with `bg-white/80 backdrop-blur-sm`, champion card elevated with gold border + shadow; Mobile: larger packshots (`h-24 w-12`), rounded-20 cards with `bg-white/80 backdrop-blur-sm`, no podium background
+- `src/app/globals.css` — Added `.section-bg-temple` and `.section-bg-arena` background-image classes
+
+## Screenshot Comparison
+- **Desktop Hero** vs PC-section-1.png: ✅ Header nearly transparent, hero background fully visible with pedestal at bottom, text content well-positioned
+- **Desktop Produits** vs PC-section-2-3.png (top): ✅ All 3 cards unified — full-height images with gradient overlay, text at bottom on dark gradient, CTA buttons consistently positioned
+- **Desktop Formule** vs PC-section-2-3.png (bottom): ✅ 3-column layout — heading+body+badges left, temple image center with invisible medallions, detail card right with liquid glass effect
+- **Desktop Analyse** vs pc-section-4-5.png (top): ✅ Section background image visible, floating data cards with glass effect, champion card elevated with gold border and shadow
+- **Mobile Hero** vs Mobile-section-1.png: ✅ Fits single viewport (390x844), compacted product image, reduced margins, all content visible
+- **Mobile Produits** vs Mobile-section-2-3.png: ✅ Lighter overlays improve readability, dark cards use `from-black/60 via-black/30`, light card uses `from-white/50 via-transparent`
+- **Mobile Analyse** vs Mobile-section-4-5.png: ✅ No podium background, larger packshots in cards, clean comparison table, HYDRE as champion
+
+## What Was Fixed
+1. **Header transparency** — `bg-white/[0.05]` (was 0.15) with `backdrop-blur-md` for subtle liquid glass, hero background shows through clearly
+2. **Hero desktop bg** — `object-[50%_40%]` shows more of pedestal at bottom, `pt-16` compensates for sticky header
+3. **Hero mobile overflow** — Reduced all margins and padding to fit within 844px viewport: product image `h-[280px]`, compact spacing throughout
+4. **Product cards unified** — All 3 cards now identical structure: full-height image, gradient overlay (transparent top → dark bottom), text overlaid at bottom with conditional content
+5. **Electrolyte temple 3-column** — Correct layout: heading+stats left column, temple center column, detail card right column (300px fixed)
+6. **Medallion buttons invisible** — Buttons invisible by default (`opacity-0`), hover shows subtle white dot, selected shows gold ring with glow shadow, no text inside
+7. **Detail card styling** — Liquid glass (`bg-white/80 backdrop-blur-sm`), large gold symbol (`text-4xl`), proper border-top separators, removed duplicate benefit box
+8. **Comparison section background** — Background image on section (not inline), desktop shows floating data cards over background podium
+9. **Comparison mobile** — Larger packshots, rounded cards with glass effect, no podium background, champion card with gold border
+
+## Known Remaining Issues — Phase 2 Follow-up
+- Desktop Formule section: heading and stat badges appear stacked above temple image instead of in left column — may be viewport/container width issue causing grid column collapse
+- Section background images (`electrolyte-temple-background.png`, `comparison-arena-scene.png`) may not be visible depending on browser/asset resolution
+- Temple medallion buttons are completely invisible (no visible state even on hover in screenshot) — may need subtle default ring or hover state tuning
+- Mobile produits: Prochain Nectar light overlay (`from-white/50`) may need adjustment for text readability on light backgrounds
+- Hero mobile product image (`h-[280px]`) may be too small at 390px width — could need `h-[320px]` as compromise
+- Comparison desktop floating cards: position depends on background image layout; text labels may not align perfectly with podium areas in background
+- Color variables in `globals.css` unchanged (Phase 3 scope)
+- Hero badges use simplified lucide icons instead of detailed custom icons from reference
+
