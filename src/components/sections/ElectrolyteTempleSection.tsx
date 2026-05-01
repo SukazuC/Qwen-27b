@@ -90,7 +90,7 @@ export default function ElectrolyteTempleSection() {
     >
       <div className="container-max">
         {/* Header — mobile only */}
-        <div className="mb-6 text-center lg:hidden">
+        <div className="mb-6 text-center min-[1080px]:hidden">
           <SectionHeading id="formule-heading" title={sectionTitle} />
           <p className="mt-2 font-display italic text-[var(--color-gold)]">
             {sectionEmphasisMobile}
@@ -111,9 +111,9 @@ export default function ElectrolyteTempleSection() {
         </div>
 
         {/* Desktop: 3-column layout — title+stats left, temple center, detail right */}
-        <div className="hidden lg:grid lg:grid-cols-[auto,1fr,300px] lg:gap-8 lg:items-start">
+        <div className="hidden min-[1080px]:grid min-[1080px]:gap-6 min-[1080px]:items-center" style={{ gridTemplateColumns: 'minmax(240px, auto) minmax(400px, 1fr) 340px' }}>
           {/* LEFT: Title + body + instruction + stat badges */}
-          <div className="flex max-w-xs flex-col justify-center pr-4">
+          <div className="flex min-w-[240px] max-w-[300px] flex-col justify-center">
             <SectionHeading id="formule-heading" title={sectionTitle} />
             <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
               {sectionBodyDesktop}
@@ -144,7 +144,7 @@ export default function ElectrolyteTempleSection() {
         </div>
 
         {/* Mobile layout: temple image + detail sheet */}
-        <div className="lg:hidden">
+        <div className="min-[1080px]:hidden">
           <TempleImage
             activeKey={activeKey}
             items={items}
