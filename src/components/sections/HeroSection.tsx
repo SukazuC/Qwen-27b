@@ -13,25 +13,17 @@ const GreekColumnOrnament = () => (
     strokeWidth={1.5}
     aria-hidden="true"
   >
-    {/* Top abacus */}
     <path d="M5 4h50" />
-    {/* Top cornice */}
     <path d="M8 4V8h44V4" />
-    {/* Capital / volutes */}
     <path d="M14 8c0-4 4-8 10-8h12c6 0 10 4 10 8" />
-    {/* Pillar shaft */}
     <path d="M20 8v18" />
     <path d="M40 8v18" />
-    {/* Center decorative element */}
     <path d="M22 16h16" />
     <path d="M30 12v8" />
-    {/* Base molding */}
     <path d="M16 26h28" />
     <path d="M14 26v4h32v-4" />
-    {/* Bottom step */}
     <path d="M10 30h40" />
     <path d="M8 30v4h44v-4" />
-    {/* Bottom step wider */}
     <path d="M4 34h52" />
   </svg>
 );
@@ -93,8 +85,10 @@ function HeroBadges() {
       <Badge icon={Droplet} value="0g" label="sucre" />
       <Badge icon={Zap} value="6" label="électrolytes" />
       <Badge icon={Sparkles} value="3" label="vitamines" />
-      <Badge iconType="flag" value="" label="Fabriqué en France" />
-      <Badge icon={Leaf} value="" label="Vegan" />
+      <Badge iconType="flag" value="" label="Fabriqué en France" className="col-start-2 hidden md:flex" />
+      <Badge icon={Leaf} value="" label="Vegan" className="col-start-3 hidden md:flex" />
+      <Badge iconType="flag" value="" label="Fabriqué en France" className="col-span-1 col-start-1 md:hidden" />
+      <Badge icon={Leaf} value="" label="Vegan" className="col-span-1 col-start-2 md:hidden" />
     </div>
   );
 }
@@ -103,7 +97,7 @@ export default function HeroSection() {
   return (
   <section
       id="hero"
-      className="relative flex min-h-screen items-center overflow-hidden bg-[var(--color-bg)]"
+      className="relative flex items-center overflow-hidden bg-[var(--color-bg)] py-8 md:min-h-screen md:py-0"
       aria-labelledby="hero-heading"
     >
       {/* Full-width background image (desktop only) */}
@@ -113,27 +107,27 @@ export default function HeroSection() {
           alt=""
           aria-hidden="true"
           fill
-          className="object-cover object-center"
+          className="object-cover object-[50%_35%]"
           priority
-          sizes="100vw"
+          sizes="(max-width: 768px) 0px, 100vw"
         />
       </div>
 
       <div className="container-max relative z-10 flex w-full flex-col md:flex-row md:items-center">
-        {/* Mobile layout */}
-        <div className="flex flex-1 flex-col items-center px-4 pt-12 pb-16 md:hidden">
+        {/* Mobile layout — compact, single viewport */}
+        <div className="flex flex-1 flex-col items-center px-4 pt-8 pb-10 md:hidden">
           <GreekColumnOrnament />
           <HeroTitle />
 
-          {/* Mobile product image */}
-          <div className="relative mt-6 h-[420px] w-full">
+          {/* Mobile product image — centered, prominent */}
+          <div className="relative mx-auto mt-4 h-[380px] w-full max-w-[280px]">
             <Image
-              src="/assets/source/hero-product-scene-background.png"
+              src="/assets/source/flavor-passion-scene.png"
               alt="HYDRE Nutrition produit"
               fill
-              className="object-cover object-[65%_20%]"
+              className="object-contain object-center"
               priority
-              sizes="100vw"
+              sizes="280px"
             />
           </div>
 

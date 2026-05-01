@@ -1,7 +1,7 @@
 export const founders = {
   sectionTitle: "Agora des",
   sectionEmphasis: "Fondateurs.",
-  subtitle: "Ensemble, façonnons l'hydratation de demain.",
+  subtitle: "Ensemble, nous forgeons l'avenir de l'hydratation.",
   passportImage: "/assets/source/founder-passport.png",
   passportAlt: "Passe fondateur HYDRE Nutrition.",
   demoProfile: {
@@ -16,15 +16,15 @@ export const founders = {
   statCards: [
     {
       value: "2 430 POINTS",
-      label: "Voir l'historique",
+      label: "Vos points fondateurs",
     },
     {
       value: "1 VOTE ACTIF",
-      label: "Utiliser mon vote",
+      label: "Faîtes entendre votre voix",
     },
     {
       value: "6 428 / 10 000",
-      label: "Rejoindre plus d'esprits",
+      label: "Rejoignez l'élite",
     },
   ],
   nextVote: {
@@ -36,11 +36,10 @@ export const founders = {
     countdownMock: "6 j 12 h",
   },
   roadmap: [
-    { step: 1, label: "Recherche des actifs", description: "" },
-    { step: 2, label: "Tests & formulation", description: "" },
-    { step: 3, label: "Tests goût & stabilité", description: "" },
-    { step: 4, label: "Design & expérience", description: "" },
-    { step: 5, label: "Production & lancement", description: "" },
+    { step: 1, label: "IDÉATION", sublabel: "Collecte d'idées" },
+    { step: 2, label: "RECHERCHE", sublabel: "Formulation & tests" },
+    { step: 3, label: "DÉGUSTATION", sublabel: "Tests fondateurs" },
+    { step: 4, label: "LANCEMENT", sublabel: "Production & envoi" },
   ],
 } as const;
 

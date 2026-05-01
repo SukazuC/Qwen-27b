@@ -3,7 +3,6 @@
 import { founders } from "@/lib/content/founders";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
-import { StatCard } from "@/components/ui/StatCard";
 import { Card } from "@/components/ui/Card";
 import { Countdown } from "@/components/interactive/Countdown";
 import {
@@ -14,10 +13,24 @@ import {
   Package,
   Check,
   ArrowRight,
+  Medal,
+  Vote,
+  Users,
+  Lightbulb,
+  BarChart3,
+  MessageSquare,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const stepIcons = [FlaskConical, ClipboardList, UtensilsCrossed, Palette, Package] as const;
+const stepIcons = [FlaskConical, ClipboardList, UtensilsCrossed, Palette] as const;
+
+const bottomBarItems = [
+  { icon: Lightbulb, title: "VOS IDÉES", desc: "Nourrissent nos innovations" },
+  { icon: BarChart3, title: "VOS VOTES", desc: "Orientent nos créations" },
+  { icon: MessageSquare, title: "VOS AVIS", desc: "Affinent chaque détail" },
+  { icon: TrendingUp, title: "VOS RÉSULTATS", desc: "Optimisent nos formules" },
+];
 
 export default function FounderAgoraSection() {
   const {
@@ -39,7 +52,7 @@ export default function FounderAgoraSection() {
       aria-labelledby="fondateurs-heading"
     >
       <div className="container-max">
-        <div className="mb-12 text-center">
+        <div className="mb-8 text-center sm:mb-12">
           <SectionHeading
             id="fondateurs-heading"
             title={sectionTitle}
@@ -50,163 +63,280 @@ export default function FounderAgoraSection() {
           </p>
         </div>
 
-        <div className="grid items-start gap-10 lg:grid-cols-5">
-          {/* Left column: Passport + profile */}
-          <div className="lg:col-span-2">
-            <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border-gold)]">
+        {/* ===== MOBILE LAYOUT ===== */}
+        <div className="sm:hidden">
+          {/* Passport + Stats compact grid */}
+          <div className="grid grid-cols-[130px,1fr] gap-3">
+            {/* Passport — left, compact */}
+            <div className="overflow-hidden rounded-[16px] border border-[var(--color-border-gold)]">
               <ResponsiveImage
                 src={passportImage}
                 alt={passportAlt}
-                width={2048}
-                height={2048}
+                width={400}
+                height={500}
                 className="w-full"
-                sizes="(max-width: 1024px) 80vw, 40vw"
+                sizes="130px"
               />
             </div>
 
-            <div className="mt-4 flex items-center gap-3 text-sm">
-              <span className="rounded-full border border-[var(--color-border-gold)] px-3 py-1 text-xs font-mono text-[var(--color-muted)]">
-                {demoProfile.founderId}
-              </span>
-              <span className="text-xs text-[var(--color-muted)]">
-                Membre depuis le {demoProfile.memberSince}
-              </span>
+            {/* Stats — right, 2x2 grid */}
+            <div className="grid grid-cols-2 gap-2">
+              {statCards.map((stat, i) => (
+                <div
+                  key={i}
+                  className="rounded-[12px] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-3"
+                >
+                  <MobileStatIcon index={i} />
+                  <div className="mt-1.5 font-display text-sm font-bold leading-tight text-[var(--color-ink)]">
+                    {stat.value}
+                  </div>
+                  <div className="mt-0.5 text-[9px] leading-tight text-[var(--color-muted)]">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right column: Stats + Vote + Timeline */}
-          <div className="lg:col-span-3">
-            {/* Stats */}
-            <div className="grid gap-4 sm:grid-cols-3">
-              {statCards.map((stat, i) => (
-                <StatCard key={i} value={stat.value} label={stat.label} />
-              ))}
-            </div>
+          {/* Demo profile info */}
+          <div className="mt-3 flex items-center gap-3 text-xs">
+            <span className="rounded-full border border-[var(--color-border-gold)] px-2.5 py-1 text-[10px] font-mono text-[var(--color-muted)]">
+              {demoProfile.founderId}
+            </span>
+            <span className="text-[10px] text-[var(--color-muted)]">
+              Membre depuis le {demoProfile.memberSince}
+            </span>
+          </div>
 
-            {/* Vote card */}
-            <Card className="mt-6">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                <div className="flex-1">
-                  <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-                    Prochain vote
+          {/* Vote card — compact */}
+          <Card className="mt-4">
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                  Prochain vote
+                </span>
+                <h3 className="mt-2 font-display text-lg font-bold text-[var(--color-ink)]">
+                  {nextVote.title}
+                </h3>
+                <p className="text-xs text-[var(--color-muted)]">
+                  {nextVote.subtitle}
+                </p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-[var(--color-gold)]/10 px-2 py-0.5 text-[9px] text-[var(--color-gold)]">
+                    {nextVote.status}
                   </span>
-                  <h3 className="mt-3 font-display text-2xl font-bold text-[var(--color-ink)]">
-                    {nextVote.title}
-                  </h3>
-                  <p className="text-sm text-[var(--color-muted)]">
-                    {nextVote.subtitle}
-                  </p>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <span className="rounded-full bg-[var(--color-gold)]/10 px-2.5 py-1 text-xs text-[var(--color-gold)]">
-                      {nextVote.status}
-                    </span>
-                    <Countdown label={nextVote.countdownLabel} mockValue={nextVote.countdownMock} />
-                  </div>
-                  <a
-                    href="#agora"
-                    className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)]"
-                  >
-                    {nextVote.cta}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </a>
+                  <Countdown label={nextVote.countdownLabel} mockValue={nextVote.countdownMock} />
                 </div>
-
-                {/* Product image - desktop: right side, mobile: below */}
-                <div className="relative flex w-full shrink-0 items-center justify-center sm:w-48">
-                  <div className="relative h-32 w-32 sm:h-40 sm:w-40">
-                    <ResponsiveImage
-                      src="/assets/source/flavor-passion-scene.png"
-                      alt="Nectar 003 - Mangue sauvage & fleur de sel"
-                      width={300}
-                      height={400}
-                      className="h-full w-full rounded-xl object-cover"
-                    />
-                    <div className="absolute inset-0 rounded-xl ring-1 ring-[var(--color-gold)]/20" />
-                  </div>
-                  <div className="absolute -right-1 -top-1 hidden rounded-full border border-[var(--color-gold)] bg-[var(--color-card)] px-2 py-1 text-[8px] font-semibold uppercase tracking-wider text-[var(--color-gold)] sm:block sm:right-0 sm:top-0">
-                    Votre choix façonne la prochaine création
-                  </div>
-                </div>
+                <a
+                  href="#agora"
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-4 py-2 text-[10px] font-medium uppercase tracking-widest text-[var(--color-gold)]"
+                >
+                  {nextVote.cta}
+                  <ArrowRight className="h-3 w-3" />
+                </a>
               </div>
-            </Card>
+              {/* Product image */}
+              <div className="relative h-24 w-24 shrink-0">
+                <ResponsiveImage
+                  src="/assets/source/flavor-passion-scene.png"
+                  alt="Nectar 003"
+                  width={200}
+                  height={200}
+                  className="h-full w-full rounded-xl object-cover"
+                />
+              </div>
+            </div>
+          </Card>
 
-            {/* Timeline */}
-            <div className="mt-8">
-              <h4 className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">
-                Notre R&D, étape par étape
-              </h4>
-
-              {/* Desktop: horizontal timeline with icons */}
-              <div className="hidden relative items-center justify-between sm:flex">
+          {/* Timeline — horizontal scroll */}
+          <div className="mt-6">
+            <h4 className="mb-4 text-center text-[10px] font-semibold uppercase tracking-widest text-[var(--color-muted)]">
+              Feuille de route R&D
+            </h4>
+            <div className="overflow-x-auto pb-2">
+              <div className="flex gap-3">
                 {roadmap.map((step, i) => {
                   const Icon = stepIcons[i % stepIcons.length];
                   const status = getStepStatus(step.step);
                   return (
-                    <TimelineStepDesktop
-                      key={step.step}
-                      step={step}
-                      icon={Icon}
-                      status={status}
-                      isLast={i === roadmap.length - 1}
-                    />
+                    <div key={step.step} className="flex shrink-0 items-center gap-2">
+                      <div
+                        className={cn(
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2",
+                          status === "completed"
+                            ? "border-[var(--color-gold)] bg-[var(--color-gold)] text-white"
+                            : status === "in-progress"
+                              ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-gold)]"
+                              : "border-[var(--color-border-soft)] bg-[var(--color-card)] text-[var(--color-muted)]"
+                        )}
+                      >
+                        {status === "completed" ? (
+                          <Check className="h-4 w-4" />
+                        ) : (
+                          <Icon className="h-4 w-4" />
+                        )}
+                      </div>
+                      <div className="w-20">
+                        <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-ink)]">
+                          {step.label}
+                        </p>
+                        <p className="text-[9px] text-[var(--color-muted)]">
+                          {step.sublabel}
+                        </p>
+                        <p
+                          className={cn(
+                            "mt-0.5 text-[9px] font-medium",
+                            status === "completed"
+                              ? "text-[var(--color-gold)]"
+                              : status === "in-progress"
+                                ? "text-[var(--color-ink)]"
+                                : "text-[var(--color-muted)]"
+                          )}
+                        >
+                          {status === "completed"
+                            ? "✓ Terminée"
+                            : status === "in-progress"
+                              ? "En cours"
+                              : "À venir"}
+                        </p>
+                      </div>
+                      {i < roadmap.length - 1 && (
+                        <div className="h-px w-4 bg-[var(--color-border-soft)]" />
+                      )}
+                    </div>
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </div>
 
-              {/* Mobile: horizontal scroll */}
-              <div className="overflow-x-auto pb-2 sm:hidden">
-                <div className="flex gap-3">
+        {/* ===== DESKTOP LAYOUT ===== */}
+        <div className="hidden sm:block">
+          <div className="grid items-start gap-10 lg:grid-cols-5">
+            {/* Left column: Passport + profile */}
+            <div className="lg:col-span-2">
+              <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border-gold)]">
+                <ResponsiveImage
+                  src={passportImage}
+                  alt={passportAlt}
+                  width={2048}
+                  height={2048}
+                  className="w-full"
+                  sizes="(max-width: 1024px) 80vw, 40vw"
+                />
+              </div>
+
+              <div className="mt-4 flex items-center gap-3 text-sm">
+                <span className="rounded-full border border-[var(--color-border-gold)] px-3 py-1 text-xs font-mono text-[var(--color-muted)]">
+                  {demoProfile.founderId}
+                </span>
+                <span className="text-xs text-[var(--color-muted)]">
+                  Membre depuis le {demoProfile.memberSince}
+                </span>
+              </div>
+            </div>
+
+            {/* Right column: Stats + Vote + Timeline */}
+            <div className="lg:col-span-3">
+              {/* Stats with custom icons */}
+              <div className="grid gap-4 sm:grid-cols-3">
+                {statCards.map((stat, i) => (
+                  <DesktopStatCard key={i} value={stat.value} label={stat.label} index={i} />
+                ))}
+              </div>
+
+              {/* Vote card */}
+              <Card className="mt-6">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                  <div className="flex-1">
+                    <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                      Prochain vote
+                    </span>
+                    <h3 className="mt-3 font-display text-2xl font-bold text-[var(--color-ink)]">
+                      {nextVote.title}
+                    </h3>
+                    <p className="text-sm text-[var(--color-muted)]">
+                      {nextVote.subtitle}
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      <span className="rounded-full bg-[var(--color-gold)]/10 px-2.5 py-1 text-xs text-[var(--color-gold)]">
+                        {nextVote.status}
+                      </span>
+                      <Countdown label={nextVote.countdownLabel} mockValue={nextVote.countdownMock} />
+                    </div>
+                    <a
+                      href="#agora"
+                      className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-[var(--color-gold)] transition-colors hover:bg-[var(--color-ink-soft)]"
+                    >
+                      {nextVote.cta}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+
+                  {/* Product image — right side */}
+                  <div className="relative flex w-full shrink-0 items-center justify-center sm:w-48">
+                    <div className="relative h-32 w-32 sm:h-40 sm:w-40">
+                      <ResponsiveImage
+                        src="/assets/source/flavor-passion-scene.png"
+                        alt="Nectar 003 - Mangue sauvage & fleur de sel"
+                        width={300}
+                        height={400}
+                        className="h-full w-full rounded-xl object-cover"
+                      />
+                      <div className="absolute inset-0 rounded-xl ring-1 ring-[var(--color-gold)]/20" />
+                    </div>
+                    <div className="absolute -right-1 -top-1 hidden rounded-full border border-[var(--color-gold)] bg-[var(--color-card)] px-2 py-1 text-[8px] font-semibold uppercase tracking-wider text-[var(--color-gold)] sm:block sm:right-0 sm:top-0">
+                      Votre choix façonne la prochaine création
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Timeline */}
+              <div className="mt-8">
+                <h4 className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">
+                  Notre R&D, étape par étape
+                </h4>
+
+                {/* Desktop: horizontal timeline with cards */}
+                <div className="relative flex items-start justify-between">
+                  {/* Connector line */}
+                  <div className="absolute left-12 right-12 top-7 h-px bg-[var(--color-border-soft)]" />
                   {roadmap.map((step, i) => {
                     const Icon = stepIcons[i % stepIcons.length];
                     const status = getStepStatus(step.step);
                     return (
-                      <div key={step.step} className="flex shrink-0 items-center gap-2">
-                        <div
-                          className={cn(
-                            "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2",
-                            status === "completed"
-                              ? "border-[var(--color-gold)] bg-[var(--color-gold)] text-white"
-                              : status === "in-progress"
-                                ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-gold)]"
-                                : "border-[var(--color-border-soft)] bg-[var(--color-card)] text-[var(--color-muted)]"
-                          )}
-                        >
-                          {status === "completed" ? (
-                            <Check className="h-4 w-4" />
-                          ) : (
-                            <Icon className="h-4 w-4" />
-                          )}
-                        </div>
-                        <div className="w-20">
-                          <p className="text-[10px] font-medium text-[var(--color-ink)]">
-                            {step.label}
-                          </p>
-                          <p
-                            className={cn(
-                              "text-[9px]",
-                              status === "completed"
-                                ? "text-[var(--color-gold)]"
-                                : status === "in-progress"
-                                  ? "text-[var(--color-ink)]"
-                                  : "text-[var(--color-muted)]"
-                            )}
-                          >
-                            {status === "completed"
-                              ? "✓ Terminée"
-                              : status === "in-progress"
-                                ? "En cours"
-                                : "À venir"}
-                          </p>
-                        </div>
-                        {i < roadmap.length - 1 && (
-                          <div className="h-px w-4 bg-[var(--color-border-soft)]" />
-                        )}
-                      </div>
+                      <TimelineStepDesktop
+                        key={step.step}
+                        step={step}
+                        icon={Icon}
+                        status={status}
+                        isLast={i === roadmap.length - 1}
+                      />
                     );
                   })}
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Bottom engagement bar */}
+          <div className="mt-10 grid grid-cols-2 gap-4 rounded-[var(--radius-xl)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-6 sm:grid-cols-4">
+            {bottomBarItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="flex flex-col items-center text-center sm:text-left sm:items-start">
+                  <Icon className="h-5 w-5 text-[var(--color-gold)]" />
+                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-ink)]">
+                    {item.title}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-[var(--color-muted)]">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -214,39 +344,83 @@ export default function FounderAgoraSection() {
   );
 }
 
+/* ===== DESKTOP STAT CARD WITH ICON ===== */
+
+function DesktopStatCard({
+  value,
+  label,
+  index,
+}: {
+  value: string;
+  label: string;
+  index: number;
+}) {
+  const icons = [Medal, Vote, Users];
+  const Icon = icons[index % icons.length];
+
+  return (
+    <div className="group rounded-[var(--radius-lg)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-5 transition-shadow hover:shadow-md">
+      <div className="flex items-start gap-3">
+        <div className="rounded-full bg-[var(--color-gold)]/10 p-2">
+          <Icon className="h-5 w-5 text-[var(--color-gold)]" />
+        </div>
+        <div>
+          <div className="font-display text-xl font-bold text-[var(--color-ink)]">
+            {value}
+          </div>
+          <div className="mt-1 flex items-center gap-1 text-sm text-[var(--color-muted)]">
+            {label}
+            <ArrowRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===== MOBILE STAT ICON ===== */
+
+function MobileStatIcon({ index }: { index: number }) {
+  const icons = [Medal, Vote, Users];
+  const Icon = icons[index % icons.length];
+  return <Icon className="h-4 w-4 text-[var(--color-gold)]" />;
+}
+
+/* ===== DESKTOP TIMELINE STEP ===== */
+
 function TimelineStepDesktop({
   step,
   icon: Icon,
   status,
   isLast,
 }: {
-  step: { step: number; label: string };
+  step: { step: number; label: string; sublabel: string };
   icon: React.ComponentType<{ className?: string }>;
   status: "completed" | "in-progress" | "upcoming";
   isLast: boolean;
 }) {
   return (
-    <div className="relative flex flex-col items-center">
-      <div className="relative flex flex-col items-center">
-        <div
-          className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors",
-            status === "completed"
-              ? "border-[var(--color-gold)] bg-[var(--color-gold)] text-white"
-              : status === "in-progress"
-                ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-gold)]"
-                : "border-[var(--color-border-soft)] bg-[var(--color-card)] text-[var(--color-muted)]"
-          )}
-        >
-          {status === "completed" ? (
-            <Check className="h-5 w-5" />
-          ) : (
-            <Icon className="h-5 w-5" />
-          )}
-        </div>
+    <div className="flex flex-1 flex-col items-center">
+      <div
+        className={cn(
+          "flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors",
+          status === "completed"
+            ? "border-[var(--color-gold)] bg-[var(--color-gold)] text-white"
+            : status === "in-progress"
+              ? "border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-gold)]"
+              : "border-[var(--color-border-soft)] bg-[var(--color-card)] text-[var(--color-muted)]"
+        )}
+      >
+        {status === "completed" ? (
+          <Check className="h-5 w-5" />
+        ) : (
+          <Icon className="h-5 w-5" />
+        )}
+      </div>
+      <div className="mt-3 w-24 text-center">
         <span
           className={cn(
-            "mt-1 text-[10px] font-semibold tracking-wider",
+            "text-[10px] font-bold tracking-wider",
             status === "in-progress"
               ? "text-[var(--color-ink)]"
               : "text-[var(--color-muted)]"
@@ -254,11 +428,9 @@ function TimelineStepDesktop({
         >
           {String(step.step).padStart(2, "0")}
         </span>
-      </div>
-      <div className="mt-2 w-24 text-center">
         <p
           className={cn(
-            "text-xs font-medium",
+            "mt-1 text-xs font-semibold",
             status === "in-progress"
               ? "text-[var(--color-ink)]"
               : "text-[var(--color-muted)]"
@@ -266,9 +438,10 @@ function TimelineStepDesktop({
         >
           {step.label}
         </p>
+        <p className="text-[10px] text-[var(--color-muted)]">{step.sublabel}</p>
         <p
           className={cn(
-            "mt-0.5 text-[10px]",
+            "mt-1 text-[10px]",
             status === "completed"
               ? "text-[var(--color-gold)]"
               : status === "in-progress"
@@ -277,27 +450,12 @@ function TimelineStepDesktop({
           )}
         >
           {status === "completed"
-            ? "Terminée"
+            ? "✓ Terminée"
             : status === "in-progress"
               ? "En cours"
               : "À venir"}
         </p>
       </div>
-      {/* Connector line */}
-      {!isLast && (
-        <div
-          className={cn(
-            "absolute top-6 h-px",
-            status === "completed"
-              ? "bg-[var(--color-gold)]"
-              : "bg-[var(--color-border-soft)]"
-          )}
-          style={{
-            left: "calc(50% + 24px)",
-            width: "calc(50vw / 5 - 24px)",
-          }}
-        />
-      )}
     </div>
   );
 }

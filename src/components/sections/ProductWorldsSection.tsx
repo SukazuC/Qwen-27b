@@ -1,7 +1,7 @@
 import { products } from "@/lib/content/products";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sun, Moon } from "lucide-react";
 
 export default function ProductWorldsSection() {
   const { sectionTitle, sectionEmphasis, subtitleDesktop, flavors } = products;
@@ -24,44 +24,17 @@ export default function ProductWorldsSection() {
           </p>
         </div>
 
-        {/* Desktop: 3-column grid */}
+        {/* Desktop: 3-column grid — tall cards with image top + text bottom */}
         <div className="hidden gap-6 lg:grid lg:grid-cols-3">
           {flavors.map((flavor) => (
-            <div
-              key={flavor.id}
-              className="group relative aspect-[3/4] overflow-hidden rounded-[24px]"
-            >
-              <ResponsiveImage
-                src={flavor.asset}
-                alt={flavor.darkOverlay ? `Tube HYDRE ${flavor.name}` : `Prochain nectar HYDRE`}
-                width={1638}
-                height={2048}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-
-              {flavor.darkOverlay ? (
-                <DarkProductCard flavor={flavor} />
-              ) : (
-                <LightProductCard flavor={flavor} />
-              )}
-            </div>
+            <DesktopCard key={flavor.id} flavor={flavor} />
           ))}
         </div>
 
-        {/* Mobile: horizontal cards */}
+        {/* Mobile: horizontal cards with image background + glass overlay */}
         <div className="space-y-3 lg:hidden">
           {flavors.map((flavor) => (
-            <div
-              key={flavor.id}
-              className="group relative flex overflow-hidden rounded-[20px]"
-            >
-              {flavor.darkOverlay ? (
-                <MobileDarkCard flavor={flavor} />
-              ) : (
-                <MobileLightCard flavor={flavor} />
-              )}
-            </div>
+            <MobileCard key={flavor.id} flavor={flavor} />
           ))}
         </div>
       </div>
@@ -69,66 +42,92 @@ export default function ProductWorldsSection() {
   );
 }
 
-/* ===== DESKTOP CARDS ===== */
+/* ===== DESKTOP CARD — image on top, text below on colored bg ===== */
 
-function DarkProductCard({
+function DesktopCard({
   flavor,
 }: {
   flavor: (typeof products.flavors)[number];
 }) {
-  if (!flavor.darkOverlay) return null;
-  return (
-    <>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex flex-col p-6 text-white">
-        <span className="font-display text-sm font-bold text-[var(--color-gold)]">
-          {flavor.number}
-        </span>
-        <h3 className="mt-2 font-display text-2xl font-bold tracking-wide">
-          {flavor.name}
-        </h3>
-        <p className="mt-1 text-xs tracking-widest text-white/70">
-          {flavor.desktopTagline}
-        </p>
-        <div className="mt-4 space-y-2">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-              {flavor.notesTitle}
-            </p>
-            <p className="text-sm text-white/80">{flavor.notes}</p>
-          </div>
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-              {flavor.moodTitle}
-            </p>
-            <p className="text-sm text-white/80">{flavor.mood}</p>
-          </div>
+  if (flavor.darkOverlay) {
+    return (
+      <div
+        className="group relative flex flex-col overflow-hidden rounded-[24px]"
+        style={{ backgroundColor: flavor.cardBgColor }}
+      >
+        {/* Image area — fixed height at top */}
+        <div className="relative h-[420px] w-full shrink-0 overflow-hidden">
+          <ResponsiveImage
+            src={flavor.asset}
+            alt={`Tube HYDRE ${flavor.name}`}
+            width={1638}
+            height={2048}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 1024px) 100vw, 33vw"
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
         </div>
-        <p className="mt-4 font-display italic text-sm text-[var(--color-gold)]">
-          {flavor.poeticLine}
-        </p>
-        <a
-          href="#"
-          className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-white transition-colors hover:bg-white/10"
-        >
-          {flavor.cta}
-          <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-    </>
-  );
-}
 
-function LightProductCard({
-  flavor,
-}: {
-  flavor: (typeof products.flavors)[number];
-}) {
-  if (flavor.darkOverlay) return null;
+        {/* Text content — below image, in card body */}
+        <div className="relative z-10 flex flex-col p-6 text-white">
+          <span className="font-display text-sm font-bold text-[var(--color-gold)]">
+            {flavor.number}
+          </span>
+          <h3 className="mt-2 font-display text-2xl font-bold tracking-wide">
+            {flavor.name}
+          </h3>
+          <p className="mt-1 text-xs tracking-widest text-white/70">
+            {flavor.desktopTagline}
+          </p>
+
+          <div className="mt-4 space-y-2">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                {flavor.notesTitle}
+              </p>
+              <p className="text-sm text-white/80">{flavor.notes}</p>
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                {flavor.moodTitle}
+              </p>
+              <p className="text-sm text-white/80">{flavor.mood}</p>
+            </div>
+          </div>
+
+          <p className="mt-4 font-display italic text-sm text-[var(--color-gold)]">
+            {flavor.poeticLine}
+          </p>
+
+          <a
+            href="#"
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-white transition-colors hover:bg-white/10"
+          >
+            {flavor.cta}
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Light card — Prochain Nectar
   return (
-    <>
-      <div className="absolute inset-0 bg-[var(--color-bg-light)]/60 backdrop-blur-[2px]" />
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-8 text-center">
+    <div className="group relative flex flex-col overflow-hidden rounded-[24px] bg-[var(--color-bg-light)]">
+      {/* Image area — fixed height at top */}
+      <div className="relative h-[320px] w-full shrink-0 overflow-hidden">
+        <ResponsiveImage
+          src={flavor.asset}
+          alt={`Prochain nectar HYDRE`}
+          width={1638}
+          height={2048}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 1024px) 100vw, 33vw"
+        />
+      </div>
+
+      {/* Text content — below image, centered */}
+      <div className="relative z-10 flex flex-col items-center justify-center px-8 pb-8 pt-6 text-center">
         <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
           {flavor.label}
         </span>
@@ -152,85 +151,109 @@ function LightProductCard({
           <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
-    </>
+    </div>
   );
 }
 
-/* ===== MOBILE CARDS ===== */
+/* ===== MOBILE CARD — image as full bg, glass overlay left, text on top ===== */
 
-function MobileDarkCard({
+function MobileCard({
   flavor,
 }: {
   flavor: (typeof products.flavors)[number];
 }) {
-  if (!flavor.darkOverlay) return null;
+  if (flavor.darkOverlay) {
+    return (
+      <div className="group relative flex overflow-hidden rounded-[20px]">
+        {/* Image background — full card width */}
+        <div className="absolute inset-0">
+          <ResponsiveImage
+            src={flavor.asset}
+            alt={`Tube HYDRE ${flavor.name}`}
+            width={800}
+            height={600}
+            className="h-full w-full object-cover object-[70%_50%]"
+            sizes="90vw"
+          />
+        </div>
+
+        {/* Glass overlay — dark on left for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent" />
+
+        {/* Text content overlaid on left */}
+        <div className="relative z-10 flex flex-1 flex-col justify-between p-5">
+          <div>
+            <span className="font-display text-sm font-bold text-[var(--color-gold)]">
+              {flavor.number}
+            </span>
+            <h3 className="mt-1 font-display text-xl font-bold text-white">
+              {flavor.name}
+            </h3>
+            <div className="mt-2">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                {flavor.notesTitle}
+              </p>
+              <p className="text-sm text-white/80">{flavor.mobileTaste}</p>
+            </div>
+            <div className="mt-2 flex items-center gap-1.5">
+              {flavor.id === "passion-mangue" ? (
+                <Sun className="h-3.5 w-3.5 text-[var(--color-gold)]" />
+              ) : (
+                <Moon className="h-3.5 w-3.5 text-[var(--color-gold)]" />
+              )}
+              <p className="font-display italic text-sm text-[var(--color-gold)]">
+                {flavor.poeticLine}
+              </p>
+            </div>
+          </div>
+          <a
+            href="#"
+            className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-xs font-medium uppercase tracking-widest text-white"
+          >
+            {flavor.cta}
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // Light mobile card — Prochain Nectar
   return (
-    <>
-      {/* Text content on left */}
-      <div className="relative z-10 flex flex-1 flex-col justify-between p-5 bg-black">
+    <div className="group relative flex overflow-hidden rounded-[20px]">
+      {/* Image background — full card width */}
+      <div className="absolute inset-0">
+        <ResponsiveImage
+          src={flavor.asset}
+          alt={`Prochain nectar HYDRE`}
+          width={800}
+          height={600}
+          className="h-full w-full object-cover object-[70%_50%]"
+          sizes="90vw"
+        />
+      </div>
+
+      {/* Glass overlay — light on left */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg-light)]/95 via-[var(--color-bg-light)]/70 to-transparent" />
+
+      {/* Text content overlaid on left */}
+      <div className="relative z-10 flex flex-1 flex-col justify-between p-5">
         <div>
           <span className="font-display text-sm font-bold text-[var(--color-gold)]">
             {flavor.number}
           </span>
-          <h3 className="mt-1 font-display text-xl font-bold text-white">
+          <h3 className="mt-1 font-display text-xl font-bold text-[var(--color-ink)]">
             {flavor.name}
           </h3>
-          <div className="mt-3">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-              {flavor.notesTitle}
-            </p>
-            <p className="text-sm text-white/80">{flavor.mobileTaste}</p>
+          <span className="mt-2 inline-block rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+            {flavor.label}
+          </span>
+          <p className="mt-3 text-sm text-[var(--color-muted)]">{flavor.mobileBody}</p>
+          <div className="mt-2">
+            <div className="rounded-full border border-[var(--color-border-gold)] px-3 py-1 text-[10px] text-[var(--color-muted)]">
+              {flavor.lockedText}
+            </div>
           </div>
-          <p className="mt-2 font-display italic text-sm text-[var(--color-gold)]">
-            {flavor.poeticLine}
-          </p>
-        </div>
-        <a
-          href="#"
-          className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-xs font-medium uppercase tracking-widest text-white"
-        >
-          {flavor.cta}
-          <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-      {/* Image on right with gradient overlay */}
-      <div className="relative h-[180px] w-2/5 shrink-0">
-        <ResponsiveImage
-          src={flavor.asset}
-          alt={`Tube HYDRE ${flavor.name}`}
-          width={600}
-          height={800}
-          className="h-full w-full object-cover"
-          sizes="40vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
-      </div>
-    </>
-  );
-}
-
-function MobileLightCard({
-  flavor,
-}: {
-  flavor: (typeof products.flavors)[number];
-}) {
-  if (flavor.darkOverlay) return null;
-  return (
-    <div className="relative flex w-full flex-col overflow-hidden bg-[var(--color-bg-light)] p-5">
-      {/* Text content - full width on top, then image behind on right */}
-      <div className="relative z-10">
-        <span className="font-display text-sm font-bold text-[var(--color-gold)]">
-          {flavor.number}
-        </span>
-        <h3 className="mt-1 font-display text-xl font-bold text-[var(--color-ink)]">
-          {flavor.name}
-        </h3>
-        <span className="mt-2 inline-block rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-          {flavor.label}
-        </span>
-        <p className="mt-3 text-sm text-[var(--color-muted)]">{flavor.mobileBody}</p>
-        <div className="mt-2 rounded-full border border-[var(--color-border-gold)] px-3 py-1 text-[10px] text-[var(--color-muted)]">
-          {flavor.lockedText}
         </div>
         <a
           href="#fondateurs"
@@ -239,18 +262,6 @@ function MobileLightCard({
           {flavor.cta}
           <ArrowRight className="h-3.5 w-3.5" />
         </a>
-      </div>
-      {/* Image on right side, behind text */}
-      <div className="absolute right-0 top-0 z-0 h-full w-2/5">
-        <ResponsiveImage
-          src={flavor.asset}
-          alt={`Prochain nectar HYDRE`}
-          width={600}
-          height={800}
-          className="h-full w-full object-cover"
-          sizes="40vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg-light)] via-[var(--color-bg-light)]/60 to-transparent" />
       </div>
     </div>
   );
