@@ -91,9 +91,9 @@ export default function SiteHeader() {
   return (
     <>
       <header
-        className={`fixed left-0 right-0 z-50 w-full border-b border-[var(--color-border-gold)]/15 transition-all duration-150 md:bg-white/[0.02] md:backdrop-blur-sm ${
+        className={`fixed left-0 right-0 z-50 w-full border-b border-[var(--color-border-gold)]/15 transition-all duration-150 bg-white/15 backdrop-blur-md md:bg-white/[0.02] md:backdrop-blur-sm ${
           scrolled ? "md:top-0" : "md:top-7"
-        } top-0 bg-transparent backdrop-blur-none`}
+        } top-0`}
         role="banner"
       >
         <div className="container-max flex items-center justify-between py-3">
