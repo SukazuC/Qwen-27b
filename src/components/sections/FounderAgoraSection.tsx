@@ -3,7 +3,6 @@
 import { founders } from "@/lib/content/founders";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
-import { Card } from "@/components/ui/Card";
 import { Countdown } from "@/components/interactive/Countdown";
 import {
   FlaskConical,
@@ -48,11 +47,11 @@ export default function FounderAgoraSection() {
   return (
     <section
       id="fondateurs"
-      className="section-y bg-[var(--color-bg-light)]"
+      className="relative section-y bg-[var(--color-bg-light)] section-bg-agora"
       aria-labelledby="fondateurs-heading"
     >
       <div className="container-max">
-        <div className="mb-8 text-center sm:mb-12">
+        <div className="mb-12 text-center sm:mb-16">
           <SectionHeading
             id="fondateurs-heading"
             title={sectionTitle}
@@ -109,44 +108,48 @@ export default function FounderAgoraSection() {
           </div>
 
           {/* Vote card — compact */}
-          <Card className="mt-4">
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+          <div className="mt-4 relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-gold)]">
+            <div className="absolute inset-0">
+              <ResponsiveImage
+                src="/assets/source/creation-background.png"
+                alt=""
+                width={800}
+                height={600}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="relative z-10 flex flex-col items-end gap-3 p-4">
+              <div className="w-fit">
+                <div className="rounded-full bg-[var(--color-card)]/50 px-2.5 py-1 text-[7px] font-semibold uppercase tracking-wider text-[var(--color-gold)]">
+                  Votre choix façonne la prochaine création
+                </div>
+              </div>
+              <div className="w-fit max-w-[85%] rounded-[var(--radius-md)] bg-white/30 backdrop-blur-sm p-2.5 text-right">
+                <span className="rounded-full bg-fuchsia-900/10 px-2 py-0.5 text-[8px] font-semibold uppercase tracking-widest text-fuchsia-950">
                   Prochain vote
                 </span>
-                <h3 className="mt-2 font-display text-lg font-bold text-[var(--color-ink)]">
+                <h3 className="mt-1.5 font-display text-base font-bold text-[var(--color-ink)]">
                   {nextVote.title}
                 </h3>
-                <p className="text-xs text-[var(--color-muted)]">
+                <p className="text-[10px] text-[var(--color-muted)]">
                   {nextVote.subtitle}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-[var(--color-gold)]/10 px-2 py-0.5 text-[9px] text-[var(--color-gold)]">
+                <div className="mt-1.5 flex flex-wrap items-center justify-end gap-1.5">
+                  <span className="rounded-full bg-fuchsia-900/10 px-1.5 py-0.5 text-[8px] text-fuchsia-950">
                     {nextVote.status}
                   </span>
                   <Countdown label={nextVote.countdownLabel} mockValue={nextVote.countdownMock} />
                 </div>
                 <a
                   href="#agora"
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-4 py-2 text-[10px] font-medium uppercase tracking-widest text-[var(--color-gold)]"
+                  className="mt-2 inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-[var(--color-ink)] px-3 py-1.5 text-[9px] font-medium uppercase tracking-widest text-[var(--color-gold)]"
                 >
                   {nextVote.cta}
-                  <ArrowRight className="h-3 w-3" />
+                  <ArrowRight className="h-2.5 w-2.5" />
                 </a>
               </div>
-              {/* Product image */}
-              <div className="relative h-24 w-24 shrink-0">
-                <ResponsiveImage
-                  src="/assets/source/flavor-passion-scene.png"
-                  alt="Nectar 003"
-                  width={200}
-                  height={200}
-                  className="h-full w-full rounded-xl object-cover"
-                />
-              </div>
             </div>
-          </Card>
+          </div>
 
           {/* Timeline — horizontal scroll */}
           <div className="mt-6">
@@ -212,8 +215,8 @@ export default function FounderAgoraSection() {
         </div>
 
         {/* ===== DESKTOP LAYOUT ===== */}
-        <div className="hidden sm:block">
-          <div className="grid items-start gap-10 lg:grid-cols-5">
+         <div className="hidden sm:block">
+          <div className="grid items-start gap-12 lg:grid-cols-5">
             {/* Left column: Passport + profile */}
             <div className="lg:col-span-2">
               <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border-gold)]">
@@ -240,17 +243,32 @@ export default function FounderAgoraSection() {
             {/* Right column: Stats + Vote + Timeline */}
             <div className="lg:col-span-3">
               {/* Stats with custom icons */}
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-3">
                 {statCards.map((stat, i) => (
                   <DesktopStatCard key={i} value={stat.value} label={stat.label} index={i} />
                 ))}
               </div>
 
               {/* Vote card */}
-              <Card className="mt-6">
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                  <div className="flex-1">
-                    <span className="rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+              <div className="mt-8 relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-gold)] transition-shadow hover:shadow-lg">
+                <div className="absolute inset-0">
+                  <ResponsiveImage
+                    src="/assets/source/creation-background.png"
+                    alt=""
+                    width={1200}
+                    height={800}
+                    className="h-full w-full object-cover"
+                    priority
+                  />
+                </div>
+                <div className="relative z-10 flex items-stretch justify-end gap-8 p-8">
+                  <div className="shrink-0 pt-1">
+                    <div className="rounded-full bg-[var(--color-card)]/50 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-wider text-[var(--color-gold)]">
+                      Votre choix façonne la prochaine création
+                    </div>
+                  </div>
+                  <div className="w-fit rounded-[var(--radius-md)] bg-[var(--color-card)]/70 backdrop-blur-md p-8 text-right">
+                    <span className="rounded-full bg-fuchsia-900/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-fuchsia-950">
                       Prochain vote
                     </span>
                     <h3 className="mt-3 font-display text-2xl font-bold text-[var(--color-ink)]">
@@ -259,8 +277,8 @@ export default function FounderAgoraSection() {
                     <p className="text-sm text-[var(--color-muted)]">
                       {nextVote.subtitle}
                     </p>
-                    <div className="mt-3 flex flex-wrap items-center gap-3">
-                      <span className="rounded-full bg-[var(--color-gold)]/10 px-2.5 py-1 text-xs text-[var(--color-gold)]">
+                    <div className="mt-3 flex flex-wrap items-center justify-end gap-3">
+                      <span className="rounded-full bg-fuchsia-900/10 px-2.5 py-1 text-xs text-fuchsia-950">
                         {nextVote.status}
                       </span>
                       <Countdown label={nextVote.countdownLabel} mockValue={nextVote.countdownMock} />
@@ -273,29 +291,12 @@ export default function FounderAgoraSection() {
                       <ArrowRight className="h-3.5 w-3.5" />
                     </a>
                   </div>
-
-                  {/* Product image — right side */}
-                  <div className="relative flex w-full shrink-0 items-center justify-center sm:w-48">
-                    <div className="relative h-32 w-32 sm:h-40 sm:w-40">
-                      <ResponsiveImage
-                        src="/assets/source/flavor-passion-scene.png"
-                        alt="Nectar 003 - Mangue sauvage & fleur de sel"
-                        width={300}
-                        height={400}
-                        className="h-full w-full rounded-xl object-cover"
-                      />
-                      <div className="absolute inset-0 rounded-xl ring-1 ring-[var(--color-gold)]/20" />
-                    </div>
-                    <div className="absolute -right-1 -top-1 hidden rounded-full border border-[var(--color-gold)] bg-[var(--color-card)] px-2 py-1 text-[8px] font-semibold uppercase tracking-wider text-[var(--color-gold)] sm:block sm:right-0 sm:top-0">
-                      Votre choix façonne la prochaine création
-                    </div>
-                  </div>
                 </div>
-              </Card>
+              </div>
 
               {/* Timeline */}
-              <div className="mt-8">
-                <h4 className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">
+           <div className="mt-12">
+              <h4 className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-[var(--color-muted)]">
                   Notre R&D, étape par étape
                 </h4>
 
@@ -322,7 +323,7 @@ export default function FounderAgoraSection() {
           </div>
 
           {/* Bottom engagement bar */}
-          <div className="mt-10 grid grid-cols-2 gap-4 rounded-[var(--radius-xl)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-6 sm:grid-cols-4">
+          <div className="mt-14 grid grid-cols-2 gap-6 rounded-[var(--radius-xl)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-8 sm:grid-cols-4">
             {bottomBarItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -359,7 +360,7 @@ function DesktopStatCard({
   const Icon = icons[index % icons.length];
 
   return (
-    <div className="group rounded-[var(--radius-lg)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-5 transition-shadow hover:shadow-md">
+    <div className="group rounded-[var(--radius-lg)] border border-[var(--color-border-gold)] bg-[var(--color-card)] p-6 transition-shadow hover:shadow-md">
       <div className="flex items-start gap-3">
         <div className="rounded-full bg-[var(--color-gold)]/10 p-2">
           <Icon className="h-5 w-5 text-[var(--color-gold)]" />
@@ -403,7 +404,7 @@ function TimelineStepDesktop({
     <div className="flex flex-1 flex-col items-center">
       <div
         className={cn(
-          "flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors",
+          "flex h-14 w-14 items-center justify-center rounded-full border-2 transition-colors",
           status === "completed"
             ? "border-[var(--color-gold)] bg-[var(--color-gold)] text-white"
             : status === "in-progress"
@@ -412,12 +413,12 @@ function TimelineStepDesktop({
         )}
       >
         {status === "completed" ? (
-          <Check className="h-5 w-5" />
+          <Check className="h-6 w-6" />
         ) : (
-          <Icon className="h-5 w-5" />
+          <Icon className="h-6 w-6" />
         )}
       </div>
-      <div className="mt-3 w-24 text-center">
+      <div className="mt-4 w-28 text-center">
         <span
           className={cn(
             "text-[10px] font-bold tracking-wider",

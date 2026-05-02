@@ -3,10 +3,6 @@ export const comparison = {
   sectionEmphasis: "Comparative.",
   subtitle: "La formule la plus complète au meilleur prix.",
   asset: "/assets/source/comparison-arena-scene.png",
-  tabs: [
-    { id: "composition", label: "Composition" },
-    { id: "prix", label: "Prix" },
-  ],
   products: [
     {
       id: "hydratis",

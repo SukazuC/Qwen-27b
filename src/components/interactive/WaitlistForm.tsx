@@ -99,7 +99,7 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
   return (
     <form onSubmit={handleSubmit} className="mt-6" noValidate>
       {/* Desktop: pill-shaped inline container */}
-      <div className="hidden sm:flex sm:items-center sm:rounded-full sm:border sm:border-[var(--color-border-gold)] sm:bg-white/60">
+      <div className="hidden sm:flex sm:items-center sm:rounded-full sm:border sm:border-[var(--color-border-gold)] sm:bg-white/15 sm:backdrop-blur-md">
         <div className="relative flex flex-1 items-center pl-5">
           <Mail className="mr-3 h-4 w-4 shrink-0 text-[var(--color-muted)]" strokeWidth={1.5} />
           <input
@@ -139,7 +139,7 @@ export function WaitlistForm({ source }: WaitlistFormProps) {
 
       {/* Mobile: stacked full-width form */}
       <div className="flex flex-col gap-3 sm:hidden">
-        <div className="relative flex items-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-white/60 px-4">
+        <div className="relative flex items-center rounded-[var(--radius-md)] border border-[var(--color-border-gold)] bg-white/15 backdrop-blur-md px-4">
           <Mail className="mr-3 h-5 w-5 shrink-0 text-[var(--color-muted)]" strokeWidth={1.5} />
           <input
             type="email"

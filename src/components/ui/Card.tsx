@@ -21,7 +21,7 @@ export function Card({
         strong
           ? "bg-[var(--color-card-strong)]"
           : "bg-[var(--color-card)]",
-        glass && "backdrop-blur-md",
+        glass && "backdrop-blur-xl bg-white/15",
         className
       )}
       {...props}

@@ -31,10 +31,10 @@ const GreekColumnOrnament = () => (
 function HeroTitle() {
   const { hero } = site;
   return (
-    <h1
-      id="hero-heading"
-      className="font-display font-bold leading-[1.08] tracking-tight text-[var(--color-ink)] md:text-left text-[clamp(1.75rem,3.5vw,3rem)] md:text-[clamp(2.25rem,4vw,4rem)]"
-    >
+   <h1
+       id="hero-heading"
+       className="font-display font-bold leading-[1.08] tracking-tight text-[var(--color-ink)] md:text-left text-[clamp(1.75rem,3.5vw,3rem)] md:text-[clamp(2.25rem,4vw,4rem)] mb-4"
+     >
       <span className="block text-center md:text-left">{hero.titleLines[0]}</span>
       <span className="block text-center md:text-left">{hero.titleLines[1]}</span>
       <span className="block font-normal italic text-center text-[var(--color-gold)] md:text-left">
@@ -47,7 +47,7 @@ function HeroTitle() {
 function HeroBody() {
   const { hero } = site;
   return (
-    <p className="mt-3 max-w-sm text-sm leading-[1.6] text-center text-[var(--color-muted)] md:mt-5 md:max-w-md md:text-left md:text-base">
+    <p className="mt-5 mb-6 max-w-sm text-sm leading-[1.6] text-center text-[var(--color-ink)] md:mt-5 md:mb-0 md:max-w-md md:text-left md:text-base md:text-[var(--color-muted)]">
       {hero.body}
     </p>
   );
@@ -56,7 +56,7 @@ function HeroBody() {
 function HeroCtas() {
   const { hero } = site;
   return (
-    <div className="mx-auto mt-4 flex w-full flex-col items-center gap-3 sm:items-start md:mt-8 md:mx-0 md:w-auto md:flex-row">
+    <div className="mx-auto mt-6 mb-6 flex w-full flex-col items-center gap-4 sm:items-start md:mt-8 md:mb-0 md:mx-0 md:w-auto md:flex-row">
       <Button
         href={hero.primaryCta.href}
         variant="primary"
@@ -71,7 +71,7 @@ function HeroCtas() {
         variant="secondary"
         size="lg"
         withArrow
-        className="w-full sm:w-auto"
+        className="w-full sm:w-auto bg-white/80 text-[var(--color-ink)] border-white/80 md:bg-transparent md:text-[var(--color-ink)] md:border-[var(--color-gold)]"
       >
         {hero.secondaryCta.label}
       </Button>
@@ -81,12 +81,12 @@ function HeroCtas() {
 
 function HeroBadges() {
   return (
-    <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5 md:mt-8 md:mx-0 md:flex-nowrap md:justify-start md:gap-2.5">
-      <Badge icon={Droplet} value="0g" label="sucre" />
-      <Badge icon={Zap} value="6" label="électrolytes" />
-      <Badge icon={Sparkles} value="3" label="vitamines" />
-      <Badge iconType="flag" value="" label="Français" />
-      <Badge icon={Leaf} value="" label="Vegan" />
+    <div className="mt-6 mb-4 flex flex-wrap items-center justify-center gap-2 md:mt-8 md:mb-0 md:mx-0 md:flex-nowrap md:justify-start md:gap-2.5">
+      <Badge icon={Droplet} value="0g" label="sucre" className="backdrop-blur-sm bg-white/30" />
+      <Badge icon={Zap} value="6" label="électrolytes" className="backdrop-blur-sm bg-white/30" />
+      <Badge icon={Sparkles} value="3" label="vitamines" className="backdrop-blur-sm bg-white/30" />
+      <Badge iconType="flag" value="" label="Français" className="backdrop-blur-sm bg-white/30" />
+      <Badge icon={Leaf} value="" label="Vegan" className="backdrop-blur-sm bg-white/30" />
     </div>
   );
 }
@@ -95,7 +95,7 @@ export default function HeroSection() {
   return (
 <section
       id="hero"
-      className="relative flex flex-col items-center overflow-hidden bg-[var(--color-bg)] pt-16 md:h-[100vh]"
+      className="relative flex flex-col items-center overflow-hidden bg-[var(--color-bg)] pt-16 min-h-[85vh] md:h-[100vh]"
       aria-labelledby="hero-heading"
     >
       {/* Full-width background image — desktop */}
@@ -118,18 +118,21 @@ export default function HeroSection() {
           alt=""
           aria-hidden="true"
           fill
-          className="object-cover object-[50%_35%]"
+          className="object-cover object-[65%_35%]"
           priority
           sizes="100vw"
         />
       </div>
+
+      {/* Bottom fade for smooth section transition */}
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-[5] h-32 bg-gradient-to-t from-[var(--color-bg)] to-transparent" />
 
       {/* Spacer for fixed headers on desktop */}
       <div className="hidden h-[92px] md:block" />
 
       <div className="container-max relative z-10 flex w-full flex-col md:flex-row">
         {/* Mobile layout — compact, single viewport */}
-        <div className="flex flex-1 flex-col items-center px-4 pt-16 pb-8 md:hidden">
+        <div className="flex flex-1 flex-col items-center justify-end px-4 pt-16 pb-16 md:hidden">
           <GreekColumnOrnament />
           <HeroTitle />
 

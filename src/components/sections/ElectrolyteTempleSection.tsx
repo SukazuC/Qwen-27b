@@ -163,7 +163,7 @@ export default function ElectrolyteTempleSection() {
           {/* Mobile detail bottom sheet */}
           {mobileDetailOpen && (
             <div className="mt-6">
-              <div className="relative rounded-[20px] border border-[var(--color-border-gold)] backdrop-blur-md bg-white/90 p-5 shadow-lg">
+              <div className="relative rounded-[20px] border border-[var(--color-border-gold)] backdrop-blur-xl bg-white/25 p-5 shadow-lg">
                 <button
                   onClick={() => setMobileDetailOpen(false)}
                   className="absolute right-4 top-4 text-[var(--color-muted)] hover:text-[var(--color-ink)]"
@@ -250,7 +250,7 @@ function IngredientDetailCard({
   ingredient: (typeof ingredients.items)[number];
 }) {
   return (
-    <div className="rounded-[20px] bg-white/80 backdrop-blur-sm border border-[var(--color-border-soft)] p-6 shadow-lg">
+    <div className="rounded-[20px] bg-white/25 backdrop-blur-xl border border-[var(--color-border-soft)] p-6 shadow-lg">
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
         Actif sélectionné
       </p>

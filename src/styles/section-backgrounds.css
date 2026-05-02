@@ -10,9 +10,24 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.08;
+  opacity: 0.75;
   pointer-events: none;
   z-index: 0;
+}
+
+.section-bg-temple::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg) 0%,
+    transparent 20%,
+    transparent 80%,
+    var(--color-bg) 100%
+  );
+  pointer-events: none;
+  z-index: 0.5;
 }
 
 .section-bg-temple > * {
@@ -22,6 +37,7 @@
 
 .section-bg-arena {
   background-image: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-warm) 100%);
+  min-height: 56.28vw;
 }
 
 .section-bg-arena::before {
@@ -29,18 +45,81 @@
   position: absolute;
   inset: 0;
   background-image: url('/assets/source/comparison-arena-scene.png');
-  background-size: cover;
-  background-position: center bottom;
+  background-size: 100% auto;
+  background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12;
+  opacity: 1;
   pointer-events: none;
   z-index: 0;
+}
+
+.section-bg-arena::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg-light) 0%,
+    transparent 8%,
+    transparent 92%,
+    var(--color-bg-light) 100%
+  );
+  pointer-events: none;
+  z-index: 0.5;
 }
 
 .section-bg-arena > * {
   position: relative;
   z-index: 1;
 }
+
+@media (max-width: 1023px) {
+  .section-bg-arena {
+    min-height: auto;
+  }
+
+  .section-bg-arena::before,
+  .section-bg-arena::after {
+    display: none;
+  }
+}
+
+.arena-card-hydratis {
+  position: absolute;
+  left: 55%;
+  bottom: 15.5vw;
+  width: clamp(90px, 6vw, 140px);
+}
+
+.arena-card-hydre {
+  position: absolute;
+  left: 68%;
+  bottom: 18.5vw;
+  width: clamp(90px, 6vw, 140px);
+}
+
+.arena-card-decathlon {
+  position: absolute;
+  left: 82%;
+  bottom: 15.5vw;
+  width: clamp(90px, 6vw, 140px);
+}
+
+@media (min-width: 1300px) and (max-width: 1599px) {
+  .arena-card-hydratis {
+    bottom: 13vw;
+  }
+
+  .arena-card-hydre {
+    bottom: 16vw;
+  }
+
+  .arena-card-decathlon {
+    bottom: 13vw;
+  }
+}
+
+
 
 .section-bg-agora {
   background-image: linear-gradient(
@@ -50,12 +129,59 @@
   );
 }
 
+.section-bg-agora > * {
+  position: relative;
+  z-index: 1;
+}
+
 .section-bg-waitlist {
   background-image: linear-gradient(
     135deg,
     var(--color-bg-warm) 0%,
     var(--color-bg) 100%
   );
+}
+
+.section-bg-waitlist::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-bg-light),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-bg-waitlist > * {
+  position: relative;
+  z-index: 1;
+}
+
+.section-bg-productworlds > * {
+  position: relative;
+  z-index: 1;
+}
+
+.section-bg-productworlds::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-bg-light)
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .gold-glint::after {

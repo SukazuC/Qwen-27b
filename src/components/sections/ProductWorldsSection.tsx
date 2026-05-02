@@ -3,13 +3,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { ArrowRight, Sun, Moon } from "lucide-react";
 
+const mobileCardGradients: Record<string, string> = {
+  "passion-mangue": "linear-gradient(135deg, #3d2a0a 0%, #5c3d1a 40%, #2a1d08 100%)",
+  "fruits-des-bois": "linear-gradient(135deg, #1a0a2e 0%, #2d1548 40%, #0f0618 100%)",
+  "prochain-nectar": "linear-gradient(135deg, #f5efe6 0%, #e8ddd0 40%, #ede4d8 100%)",
+};
+
 export default function ProductWorldsSection() {
   const { sectionTitle, sectionEmphasis, subtitleDesktop, flavors } = products;
 
   return (
     <section
-      id="produits"
-      className="section-y bg-[var(--color-bg)]"
+    id="produits"
+      className="relative section-y bg-[var(--color-bg)] section-bg-productworlds"
       aria-labelledby="produits-heading"
     >
       <div className="container-max">
@@ -50,7 +56,7 @@ function DesktopCard({
   flavor: (typeof products.flavors)[number];
 }) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-[24px] border border-white/10" style={{ minHeight: '780px' }}>
+    <div className="group relative flex flex-col overflow-hidden rounded-[24px] border border-white/10" style={{ minHeight: '860px' }}>
       {/* Full-height image background */}
       <div className="absolute inset-0">
         <ResponsiveImage
@@ -64,58 +70,60 @@ function DesktopCard({
       </div>
 
       {/* Gradient overlay — transparent top, darker bottom for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
 
       {/* Text content overlaid at bottom — liquid glass effect */}
-      <div className="relative z-10 mt-auto p-6 text-white backdrop-blur-sm">
-        <span className="font-display text-sm font-bold text-[var(--color-gold)]">
-          {flavor.number}
-        </span>
-        <h3 className="mt-1 font-display text-2xl font-bold tracking-wide">
-          {flavor.name}
-        </h3>
-        <p className="mt-0.5 text-[10px] tracking-widest text-white/70">
-          {flavor.desktopTagline}
-        </p>
+      <div className="relative z-10 mt-auto flex flex-col items-center justify-center text-center text-white bg-black/[0.02] backdrop-blur-sm" style={{ minHeight: '220px' }}>
+        <div>
+          <span className="font-display text-xs font-bold text-[var(--color-gold)]">
+            {flavor.number}
+          </span>
+          <h3 className="mt-0.5 font-display text-xl font-bold tracking-wide">
+            {flavor.name}
+          </h3>
+          <p className="mt-0 text-[10px] tracking-widest text-white/70">
+            {flavor.desktopTagline}
+          </p>
 
-        {flavor.darkOverlay && (
-          <>
-            <div className="mt-3 space-y-1.5">
-              <div>
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-                  {flavor.notesTitle}
-                </p>
-                <p className="text-xs text-white/80">{flavor.notes}</p>
+          {flavor.darkOverlay && (
+            <>
+              <div className="mt-2 space-y-1">
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                    {flavor.notesTitle}
+                  </p>
+                  <p className="text-xs text-white/80">{flavor.notes}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                    {flavor.moodTitle}
+                  </p>
+                  <p className="text-xs text-white/80">{flavor.mood}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-                  {flavor.moodTitle}
-                </p>
-                <p className="text-xs text-white/80">{flavor.mood}</p>
-              </div>
-            </div>
-            <p className="mt-2 font-display italic text-xs text-[var(--color-gold)]">
-              {flavor.poeticLine}
-            </p>
-          </>
-        )}
+              <p className="mt-1 font-display italic text-xs text-[var(--color-gold)]">
+                {flavor.poeticLine}
+              </p>
+            </>
+          )}
 
-        {!flavor.darkOverlay && (
-          <>
-            <span className="mt-2 inline-block rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
-              {flavor.label}
-            </span>
-            <p className="mt-2 text-xs text-white/80">{flavor.body}</p>
-            <div className="mt-1.5 rounded-full border border-white/30 px-3 py-0.5 text-[9px] text-white/60">
-              {flavor.lockedText}
-            </div>
-          </>
-        )}
+          {!flavor.darkOverlay && (
+            <>
+              <span className="mt-1 inline-block rounded-full border border-[var(--color-gold)] bg-[var(--color-gold)]/10 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-widest text-[var(--color-gold)]">
+                {flavor.label}
+              </span>
+              <p className="mt-1 text-xs text-white/80">{flavor.body}</p>
+              <div className="mt-1 rounded-full border border-white/30 px-3 py-0.5 text-[9px] text-white/60">
+                {flavor.lockedText}
+              </div>
+            </>
+          )}
+        </div>
 
         {/* Button — ALWAYS at the bottom, same position for all cards */}
         <a
           href={flavor.darkOverlay ? "#" : "#fondateurs"}
-          className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-[10px] font-medium uppercase tracking-widest text-white transition-colors hover:bg-white/10"
+          className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white transition-colors hover:bg-white/10"
         >
           {flavor.cta}
           <ArrowRight className="h-3 w-3" />
@@ -133,25 +141,22 @@ function MobileCard({
   flavor: (typeof products.flavors)[number];
 }) {
   if (flavor.darkOverlay) {
-    return (
-      <div className="group relative flex overflow-hidden rounded-[20px]">
-        {/* Image background — full card width */}
-        <div className="absolute inset-0">
-       <ResponsiveImage
-           src={flavor.asset}
-             alt={`Tube HYDRE ${flavor.name}`}
+   return (
+      <div className="group relative flex overflow-hidden rounded-[20px]" style={{ background: mobileCardGradients[flavor.id] || flavor.cardBgColor }}>
+        {/* Image — right side, unzoomed */}
+        <div className="absolute bottom-0 right-0 top-0 w-2/5">
+          <ResponsiveImage
+            src={flavor.asset}
+            alt={`Tube HYDRE ${flavor.name}`}
             width={800}
             height={600}
-            className="h-full w-full object-cover object-[70%_50%]"
-            sizes="90vw"
+            className="h-full w-full object-contain object-right"
+            sizes="45vw"
           />
         </div>
 
-        {/* Glass overlay — lighter dark on left for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-
-        {/* Text content overlaid on left — liquid glass effect */}
-        <div className="relative z-10 flex flex-1 flex-col justify-between p-5 backdrop-blur-sm">
+        {/* Text content overlaid on left */}
+        <div className="relative z-10 flex flex-1 flex-col justify-between p-5">
           <div>
             <span className="font-display text-sm font-bold text-[var(--color-gold)]">
               {flavor.number}
@@ -190,24 +195,21 @@ function MobileCard({
 
   // Light mobile card — Prochain Nectar
   return (
-    <div className="group relative flex overflow-hidden rounded-[20px]">
-      {/* Image background — full card width */}
-      <div className="absolute inset-0">
+    <div className="group relative flex overflow-hidden rounded-[20px]" style={{ background: mobileCardGradients[flavor.id] || flavor.cardBgColor }}>
+      {/* Image — right side, unzoomed */}
+      <div className="absolute bottom-0 right-0 top-0 w-2/5">
         <ResponsiveImage
           src={flavor.asset}
           alt={`Prochain nectar HYDRE`}
           width={800}
           height={600}
-          className="h-full w-full object-cover object-[70%_50%]"
-          sizes="90vw"
+          className="h-full w-full object-contain object-right"
+          sizes="45vw"
         />
       </div>
 
-      {/* Glass overlay — light on left */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/50 via-transparent to-transparent" />
-
-      {/* Text content overlaid on left — liquid glass effect */}
-      <div className="relative z-10 flex flex-1 flex-col justify-between p-5 backdrop-blur-sm">
+      {/* Text content overlaid on left */}
+      <div className="relative z-10 flex flex-1 flex-col justify-between p-5">
         <div>
           <span className="font-display text-sm font-bold text-[var(--color-gold)]">
             {flavor.number}

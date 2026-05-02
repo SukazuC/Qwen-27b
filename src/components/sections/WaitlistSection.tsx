@@ -161,11 +161,11 @@ export default function WaitlistSection() {
   return (
     <section
       id="agora"
-      className="section-y bg-[var(--color-bg-warm)]"
+      className="relative section-y pt-20 pb-20 bg-[var(--color-bg-warm)] section-bg-waitlist sm:pt-28 sm:pb-28"
       aria-labelledby="waitlist-heading"
     >
       <div className="container-max relative">
-        <div className="relative z-10 grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="relative z-10 grid items-start gap-16 lg:grid-cols-2 lg:gap-20">
           {/* Left column: content */}
           <div className="lg:justify-self-start">
             {/* Gold ornament */}
@@ -180,7 +180,7 @@ export default function WaitlistSection() {
                className="text-center lg:text-left"
              />
 
-            <p className="mt-4 max-w-md text-center text-[15px] leading-relaxed text-[var(--color-muted)] lg:text-left">
+            <p className="mt-8 max-w-md text-center text-[15px] leading-relaxed text-[var(--color-muted)] lg:text-left">
               <span className="block sm:hidden">{mobileBody}</span>
               <span className="hidden sm:block">
                 {desktopBody}{" "}
@@ -190,12 +190,12 @@ export default function WaitlistSection() {
               </span>
             </p>
 
-            <div className="flex justify-center sm:justify-start">
+            <div className="mt-8 flex justify-center sm:justify-start">
               <WaitlistForm source="waitlist" />
             </div>
 
             {/* Mobile: vertical benefits list */}
-            <div className="mt-10 sm:hidden">
+            <div className="mt-14 sm:hidden">
               {/* "VOS AVANTAGES" header */}
               <div className="mb-6 flex items-center justify-center" aria-hidden="true">
                 <div className="h-px flex-1 bg-[var(--color-border-gold)]" />
@@ -211,7 +211,7 @@ export default function WaitlistSection() {
                 {benefits.map((benefit, i) => {
                   const IconComp = mobileIcons[i % mobileIcons.length];
                   return (
-                    <div key={benefit} className="py-5">
+                    <div key={benefit} className="py-6">
                       <div className="flex items-center gap-4">
                         <IconComp className="h-10 w-10 shrink-0 text-[var(--color-gold)]" strokeWidth={1.5} />
                         <span className="font-display text-[clamp(1.125rem,3vw,1.5rem)] text-[var(--color-ink)]">
@@ -219,7 +219,7 @@ export default function WaitlistSection() {
                         </span>
                       </div>
                       {i < benefits.length - 1 && (
-                        <div className="mt-5 flex items-center gap-2" aria-hidden="true">
+                        <div className="mt-6 flex items-center gap-2" aria-hidden="true">
                           <div className="h-px flex-1 bg-[var(--color-border-gold)]" />
                           <div className="h-2 w-2 rotate-45 bg-[var(--color-gold)]/50" />
                           <div className="h-px flex-1 bg-[var(--color-border-gold)]" />
@@ -232,7 +232,7 @@ export default function WaitlistSection() {
             </div>
 
             {/* Desktop: inline benefits row */}
-            <div className="hidden items-center gap-0 sm:flex">
+            <div className="hidden mt-10 items-center gap-4 sm:flex">
               {benefits.map((benefit, i) => {
                 const IconComp = desktopIcons[i % desktopIcons.length];
                 return (
@@ -253,7 +253,7 @@ export default function WaitlistSection() {
             </div>
 
             {/* Privacy line */}
-            <p className="mt-6 flex items-center gap-2 text-[11px] text-[var(--color-muted)] justify-center sm:justify-start">
+            <p className="mt-12 flex items-center gap-2 text-[11px] text-[var(--color-muted)] justify-center sm:justify-start">
               <Lock className="h-3.5 w-3.5 text-[var(--color-gold)]" strokeWidth={1.5} />
               {privacyLine}
             </p>
