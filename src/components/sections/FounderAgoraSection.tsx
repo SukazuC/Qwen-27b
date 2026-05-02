@@ -9,7 +9,6 @@ import {
   ClipboardList,
   UtensilsCrossed,
   Palette,
-  Package,
   Check,
   ArrowRight,
   Medal,
@@ -313,7 +312,6 @@ export default function FounderAgoraSection() {
                         step={step}
                         icon={Icon}
                         status={status}
-                        isLast={i === roadmap.length - 1}
                       />
                     );
                   })}
@@ -393,12 +391,10 @@ function TimelineStepDesktop({
   step,
   icon: Icon,
   status,
-  isLast,
 }: {
   step: { step: number; label: string; sublabel: string };
   icon: React.ComponentType<{ className?: string }>;
   status: "completed" | "in-progress" | "upcoming";
-  isLast: boolean;
 }) {
   return (
     <div className="flex flex-1 flex-col items-center">

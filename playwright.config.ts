@@ -1,4 +1,3 @@
-import type { PlaywrightTestConfig } from "@playwright/test";
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({

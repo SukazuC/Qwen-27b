@@ -79,7 +79,7 @@ async function copyFile(src: string, dest: string): Promise<void> {
   });
 }
 
-async function optimizeImage(src: string, dest: string, width: number, height: number) {
+async function optimizeImage(src: string, dest: string) {
   try {
     await sharp(src).webp({ quality: 80 }).toFile(dest);
     return true;
@@ -123,7 +123,7 @@ async function main() {
       console.log(`  ✓ ${asset.source} → ${asset.dest} (${asset.width}×${asset.height})`);
 
       const webpDest = path.join(OPTIMIZED_DIR, `${asset.dest.replace(/\.\w+$/, ".webp")}`);
-      const optimized = await optimizeImage(destPath, webpDest, asset.width, asset.height);
+      const optimized = await optimizeImage(destPath, webpDest);
       if (optimized) {
         console.log(`    → Optimized WebP: ${webpDest}`);
       }
